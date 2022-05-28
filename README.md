@@ -12,10 +12,11 @@ Instantiating DataStore with settings is non-destructive. Any existing DataStore
 
 Instantiate DataStore with a settings object and database schema will be created for all classes that inherit from DsObject. The following attributes can be used in your classes:  
 
-- *DsUseLineageFeatures* enables lineage features for that table; add to the class itself
-- *DsSerializerContext(typeof(...))* to provide a de/serialization speed boost by using source generator *JsonSerializationContext* classes for each table; add to the class itself
-- *DsIndexedColumn* generates a SQL computed column with index for faster queries on that data; add to properties and fields
-- *DsIndexedColumn("Food","Email")* generates indexed SQL computed columns for faster queries on the dictionary key names specified; add to Dictionary properties and fields
+- *DsNoDatabaseTable* prevents DataStore from creating a table for the class.
+- *DsUseLineageFeatures* enables lineage features for that table; add to the class itself.
+- *DsSerializerContext(typeof(...))* to provide a de/serialization speed boost by using source generator *JsonSerializationContext* classes for each table; add to the class itself.
+- *DsIndexedColumn* generates a SQL computed column with index for faster queries on that data; add to properties and fields.
+- *DsIndexedColumn("Food","Email")* generates indexed SQL computed columns for faster queries on the dictionary key names specified; add to Dictionary properties and fields.
 
 ```C#
 [DsUseLineageFeatures]
