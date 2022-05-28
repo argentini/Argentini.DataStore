@@ -1,0 +1,1511 @@
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Friday, 27 May 2022 @ 22:33:13
+=====================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.006
+Deserialize Baseline    : 00:00:00.096
+
+=> SAVES
+
+   Total SQL Time       : 00:00:09.060  /  Read: 00:00:01.605  /  Write: 00:00:07.455
+   Total CPU Time       : 00:00:00.084  /  Read: 00:00:00.081  /  Write: 00:00:00.003
+   Total Time           : 00:00:09.145
+   Efficiency           : 99.1 %
+   Effective Rate       : 219/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.195
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.200
+   Efficiency           : 97.5 %
+   Effective Rate       : 10,000/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:24.144  /  Read: 00:00:01.802  /  Write: 00:00:22.342
+   Total CPU Time       : 00:00:00.221  /  Read: 00:00:00.081  /  Write: 00:00:00.140
+   Total Time           : 00:00:24.366
+   Efficiency           : 99.1 %
+   Effective Rate       : 82/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.181
+   Total CPU Time       : 00:00:00.008
+   Total Time           : 00:00:00.189
+   Efficiency           : 95.8 %
+   Effective Rate       : 10,582/sec
+
+=> TOTAL TEST TIME: 00:00:40.640
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Friday, 27 May 2022 @ 22:34:13
+=====================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.138
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.812  /  Read: 00:00:01.598  /  Write: 00:00:07.214
+   Total CPU Time       : 00:00:00.069  /  Read: 00:00:00.065  /  Write: 00:00:00.004
+   Total Time           : 00:00:08.882
+   Efficiency           : 99.2 %
+   Effective Rate       : 225/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.179
+   Total CPU Time       : 00:00:00.008
+   Total Time           : 00:00:00.187
+   Efficiency           : 95.7 %
+   Effective Rate       : 10,695/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:23.676  /  Read: 00:00:01.709  /  Write: 00:00:21.967
+   Total CPU Time       : 00:00:00.222  /  Read: 00:00:00.084  /  Write: 00:00:00.138
+   Total Time           : 00:00:23.899
+   Efficiency           : 99.1 %
+   Effective Rate       : 84/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.186
+   Total CPU Time       : 00:00:00.018
+   Total Time           : 00:00:00.204
+   Efficiency           : 91.2 %
+   Effective Rate       : 9,804/sec
+
+=> TOTAL TEST TIME: 00:00:40.079
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 11:56:52
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.007
+Deserialize Baseline    : 00:00:00.090
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.701  /  Read: 00:00:01.722  /  Write: 00:00:06.979
+   Total CPU Time       : 00:00:00.097  /  Read: 00:00:00.096  /  Write: 00:00:00.001
+   Total Time           : 00:00:08.799
+   Efficiency           : 98.9 %
+   Effective Rate       : 227/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.215
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.222
+   Efficiency           : 96.8 %
+   Effective Rate       : 9,009/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:23.174  /  Read: 00:00:01.739  /  Write: 00:00:21.435
+   Total CPU Time       : 00:00:00.212  /  Read: 00:00:00.073  /  Write: 00:00:00.139
+   Total Time           : 00:00:23.387
+   Efficiency           : 99.1 %
+   Effective Rate       : 86/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.200
+   Total CPU Time       : 00:00:00.002
+   Total Time           : 00:00:00.202
+   Efficiency           : 99.0 %
+   Effective Rate       : 9,901/sec
+
+=> TOTAL TEST TIME: 00:00:39.395
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 11:58:56
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.133
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.686  /  Read: 00:00:01.778  /  Write: 00:00:06.908
+   Total CPU Time       : 00:00:00.070  /  Read: 00:00:00.068  /  Write: 00:00:00.002
+   Total Time           : 00:00:08.757
+   Efficiency           : 99.2 %
+   Effective Rate       : 228/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.186
+   Total CPU Time       : 00:00:00.010
+   Total Time           : 00:00:00.196
+   Efficiency           : 94.9 %
+   Effective Rate       : 10,204/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:23.286  /  Read: 00:00:01.560  /  Write: 00:00:21.726
+   Total CPU Time       : 00:00:00.232  /  Read: 00:00:00.093  /  Write: 00:00:00.139
+   Total Time           : 00:00:23.519
+   Efficiency           : 99.0 %
+   Effective Rate       : 85/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.196
+   Total CPU Time       : 00:00:00.022
+   Total Time           : 00:00:00.218
+   Efficiency           : 89.9 %
+   Effective Rate       : 9,174/sec
+
+=> TOTAL TEST TIME: 00:00:39.514
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:00:41
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.019
+Deserialize Baseline    : 00:00:00.124
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.907  /  Read: 00:00:01.604  /  Write: 00:00:07.303
+   Total CPU Time       : 00:00:00.082  /  Read: 00:00:00.079  /  Write: 00:00:00.003
+   Total Time           : 00:00:08.990
+   Efficiency           : 99.1 %
+   Effective Rate       : 222/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.134
+   Total CPU Time       : 00:00:00.010
+   Total Time           : 00:00:00.144
+   Efficiency           : 93.1 %
+   Effective Rate       : 13,889/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:23.533  /  Read: 00:00:01.668  /  Write: 00:00:21.865
+   Total CPU Time       : 00:00:00.232  /  Read: 00:00:00.089  /  Write: 00:00:00.143
+   Total Time           : 00:00:23.766
+   Efficiency           : 99.0 %
+   Effective Rate       : 84/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.185
+   Total CPU Time       : 00:00:00.008
+   Total Time           : 00:00:00.193
+   Efficiency           : 95.9 %
+   Effective Rate       : 10,363/sec
+
+=> TOTAL TEST TIME: 00:00:39.896
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:01:42
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.138
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.487  /  Read: 00:00:01.502  /  Write: 00:00:06.985
+   Total CPU Time       : 00:00:00.067  /  Read: 00:00:00.062  /  Write: 00:00:00.005
+   Total Time           : 00:00:08.555
+   Efficiency           : 99.2 %
+   Effective Rate       : 234/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.183
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.190
+   Efficiency           : 96.3 %
+   Effective Rate       : 10,526/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:23.768  /  Read: 00:00:01.818  /  Write: 00:00:21.950
+   Total CPU Time       : 00:00:00.234  /  Read: 00:00:00.097  /  Write: 00:00:00.137
+   Total Time           : 00:00:24.003
+   Efficiency           : 99.0 %
+   Effective Rate       : 83/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.201
+   Total CPU Time       : 00:00:00.009
+   Total Time           : 00:00:00.210
+   Efficiency           : 95.7 %
+   Effective Rate       : 9,524/sec
+
+=> TOTAL TEST TIME: 00:00:39.796
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:03:21
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.125
+
+=> SAVES
+
+   Total SQL Time       : 00:00:09.100  /  Read: 00:00:01.680  /  Write: 00:00:07.420
+   Total CPU Time       : 00:00:00.093  /  Read: 00:00:00.086  /  Write: 00:00:00.007
+   Total Time           : 00:00:09.194
+   Efficiency           : 99.0 %
+   Effective Rate       : 218/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.202
+   Total CPU Time       : 00:00:00.013
+   Total Time           : 00:00:00.215
+   Efficiency           : 94.0 %
+   Effective Rate       : 9,302/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:23.373  /  Read: 00:00:01.783  /  Write: 00:00:21.590
+   Total CPU Time       : 00:00:00.264  /  Read: 00:00:00.115  /  Write: 00:00:00.149
+   Total Time           : 00:00:23.638
+   Efficiency           : 98.9 %
+   Effective Rate       : 85/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.202
+   Total CPU Time       : 00:00:00.006
+   Total Time           : 00:00:00.208
+   Efficiency           : 97.1 %
+   Effective Rate       : 9,615/sec
+
+=> TOTAL TEST TIME: 00:00:45.169
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:04:25
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.129
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.574  /  Read: 00:00:01.721  /  Write: 00:00:06.853
+   Total CPU Time       : 00:00:00.071  /  Read: 00:00:00.065  /  Write: 00:00:00.006
+   Total Time           : 00:00:08.646
+   Efficiency           : 99.2 %
+   Effective Rate       : 231/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.175
+   Total CPU Time       : 00:00:00.010
+   Total Time           : 00:00:00.185
+   Efficiency           : 94.6 %
+   Effective Rate       : 10,811/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:23.076  /  Read: 00:00:01.676  /  Write: 00:00:21.400
+   Total CPU Time       : 00:00:00.244  /  Read: 00:00:00.103  /  Write: 00:00:00.141
+   Total Time           : 00:00:23.321
+   Efficiency           : 98.9 %
+   Effective Rate       : 86/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.204
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.209
+   Efficiency           : 97.6 %
+   Effective Rate       : 9,569/sec
+
+=> TOTAL TEST TIME: 00:00:44.228
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:06:07
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.126
+
+=> SAVES
+
+   Total SQL Time       : 00:00:07.967  /  Read: 00:00:01.436  /  Write: 00:00:06.531
+   Total CPU Time       : 00:00:00.087  /  Read: 00:00:00.086  /  Write: 00:00:00.001
+   Total Time           : 00:00:08.055
+   Efficiency           : 98.9 %
+   Effective Rate       : 248/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.203
+   Total CPU Time       : 00:00:00.013
+   Total Time           : 00:00:00.216
+   Efficiency           : 94.0 %
+   Effective Rate       : 9,259/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:18.079  /  Read: 00:00:01.744  /  Write: 00:00:16.335
+   Total CPU Time       : 00:00:00.227  /  Read: 00:00:00.092  /  Write: 00:00:00.135
+   Total Time           : 00:00:18.307
+   Efficiency           : 98.8 %
+   Effective Rate       : 109/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.164
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.169
+   Efficiency           : 97.0 %
+   Effective Rate       : 11,834/sec
+
+=> TOTAL TEST TIME: 00:00:28.399
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:06:45
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.020
+Deserialize Baseline    : 00:00:00.129
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.624  /  Read: 00:00:01.695  /  Write: 00:00:06.929
+   Total CPU Time       : 00:00:00.073  /  Read: 00:00:00.072  /  Write: 00:00:00.001
+   Total Time           : 00:00:08.698
+   Efficiency           : 99.2 %
+   Effective Rate       : 230/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.203
+   Total CPU Time       : 00:00:00.012
+   Total Time           : 00:00:00.215
+   Efficiency           : 94.4 %
+   Effective Rate       : 9,302/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:18.020  /  Read: 00:00:01.644  /  Write: 00:00:16.376
+   Total CPU Time       : 00:00:00.242  /  Read: 00:00:00.112  /  Write: 00:00:00.130
+   Total Time           : 00:00:18.263
+   Efficiency           : 98.7 %
+   Effective Rate       : 110/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.208
+   Total CPU Time       : 00:00:00.008
+   Total Time           : 00:00:00.216
+   Efficiency           : 96.3 %
+   Effective Rate       : 9,259/sec
+
+=> TOTAL TEST TIME: 00:00:29.059
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:07:51
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.007
+Deserialize Baseline    : 00:00:00.100
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.374  /  Read: 00:00:01.603  /  Write: 00:00:06.771
+   Total CPU Time       : 00:00:00.080  /  Read: 00:00:00.078  /  Write: 00:00:00.002
+   Total Time           : 00:00:08.455
+   Efficiency           : 99.1 %
+   Effective Rate       : 237/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.177
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.182
+   Efficiency           : 97.3 %
+   Effective Rate       : 10,989/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.691  /  Read: 00:00:01.686  /  Write: 00:00:16.005
+   Total CPU Time       : 00:00:00.232  /  Read: 00:00:00.094  /  Write: 00:00:00.138
+   Total Time           : 00:00:17.924
+   Efficiency           : 98.7 %
+   Effective Rate       : 112/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.167
+   Total CPU Time       : 00:00:00.004
+   Total Time           : 00:00:00.171
+   Efficiency           : 97.7 %
+   Effective Rate       : 11,696/sec
+
+=> TOTAL TEST TIME: 00:00:28.246
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:08:36
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.130
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.179  /  Read: 00:00:01.667  /  Write: 00:00:06.512
+   Total CPU Time       : 00:00:00.067  /  Read: 00:00:00.060  /  Write: 00:00:00.007
+   Total Time           : 00:00:08.247
+   Efficiency           : 99.2 %
+   Effective Rate       : 243/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.148
+   Total CPU Time       : 00:00:00.006
+   Total Time           : 00:00:00.154
+   Efficiency           : 96.1 %
+   Effective Rate       : 12,987/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.727  /  Read: 00:00:01.820  /  Write: 00:00:15.907
+   Total CPU Time       : 00:00:00.247  /  Read: 00:00:00.095  /  Write: 00:00:00.152
+   Total Time           : 00:00:17.975
+   Efficiency           : 98.6 %
+   Effective Rate       : 111/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.220
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.227
+   Efficiency           : 96.9 %
+   Effective Rate       : 8,811/sec
+
+=> TOTAL TEST TIME: 00:00:28.263
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:09:16
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.020
+Deserialize Baseline    : 00:00:00.126
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.955  /  Read: 00:00:01.654  /  Write: 00:00:07.301
+   Total CPU Time       : 00:00:00.069  /  Read: 00:00:00.064  /  Write: 00:00:00.005
+   Total Time           : 00:00:09.025
+   Efficiency           : 99.2 %
+   Effective Rate       : 222/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.191
+   Total CPU Time       : 00:00:00.012
+   Total Time           : 00:00:00.203
+   Efficiency           : 94.1 %
+   Effective Rate       : 9,852/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:18.506  /  Read: 00:00:01.744  /  Write: 00:00:16.762
+   Total CPU Time       : 00:00:00.251  /  Read: 00:00:00.110  /  Write: 00:00:00.141
+   Total Time           : 00:00:18.758
+   Efficiency           : 98.7 %
+   Effective Rate       : 107/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.191
+   Total CPU Time       : 00:00:00.015
+   Total Time           : 00:00:00.206
+   Efficiency           : 92.7 %
+   Effective Rate       : 9,709/sec
+
+=> TOTAL TEST TIME: 00:00:29.862
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:09:57
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.020
+Deserialize Baseline    : 00:00:00.128
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.487  /  Read: 00:00:01.403  /  Write: 00:00:07.084
+   Total CPU Time       : 00:00:00.054  /  Read: 00:00:00.051  /  Write: 00:00:00.003
+   Total Time           : 00:00:08.542
+   Efficiency           : 99.4 %
+   Effective Rate       : 234/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.139
+   Total CPU Time       : 00:00:00.008
+   Total Time           : 00:00:00.147
+   Efficiency           : 94.6 %
+   Effective Rate       : 13,605/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.530  /  Read: 00:00:01.659  /  Write: 00:00:15.871
+   Total CPU Time       : 00:00:00.240  /  Read: 00:00:00.095  /  Write: 00:00:00.145
+   Total Time           : 00:00:17.771
+   Efficiency           : 98.6 %
+   Effective Rate       : 113/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.200
+   Total CPU Time       : 00:00:00.015
+   Total Time           : 00:00:00.215
+   Efficiency           : 93.0 %
+   Effective Rate       : 9,302/sec
+
+=> TOTAL TEST TIME: 00:00:28.315
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:11:28
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.006
+Deserialize Baseline    : 00:00:00.096
+
+=> SAVES
+
+   Total SQL Time       : 00:00:07.796  /  Read: 00:00:01.604  /  Write: 00:00:06.192
+   Total CPU Time       : 00:00:00.064  /  Read: 00:00:00.062  /  Write: 00:00:00.002
+   Total Time           : 00:00:07.861
+   Efficiency           : 99.2 %
+   Effective Rate       : 254/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.167
+   Total CPU Time       : 00:00:00.011
+   Total Time           : 00:00:00.178
+   Efficiency           : 93.8 %
+   Effective Rate       : 11,236/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.545  /  Read: 00:00:01.710  /  Write: 00:00:15.835
+   Total CPU Time       : 00:00:00.203  /  Read: 00:00:00.073  /  Write: 00:00:00.130
+   Total Time           : 00:00:17.749
+   Efficiency           : 98.9 %
+   Effective Rate       : 113/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.189
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.196
+   Efficiency           : 96.4 %
+   Effective Rate       : 10,204/sec
+
+=> TOTAL TEST TIME: 00:00:27.612
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:12:08
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.020
+Deserialize Baseline    : 00:00:00.128
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.314  /  Read: 00:00:01.577  /  Write: 00:00:06.737
+   Total CPU Time       : 00:00:00.074  /  Read: 00:00:00.070  /  Write: 00:00:00.004
+   Total Time           : 00:00:08.389
+   Efficiency           : 99.1 %
+   Effective Rate       : 238/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.196
+   Total CPU Time       : 00:00:00.006
+   Total Time           : 00:00:00.202
+   Efficiency           : 97.0 %
+   Effective Rate       : 9,901/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.403  /  Read: 00:00:01.766  /  Write: 00:00:15.637
+   Total CPU Time       : 00:00:00.258  /  Read: 00:00:00.108  /  Write: 00:00:00.150
+   Total Time           : 00:00:17.662
+   Efficiency           : 98.5 %
+   Effective Rate       : 113/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.186
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.191
+   Efficiency           : 97.4 %
+   Effective Rate       : 10,471/sec
+
+=> TOTAL TEST TIME: 00:00:28.124
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:12:48
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.127
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.050  /  Read: 00:00:01.597  /  Write: 00:00:06.453
+   Total CPU Time       : 00:00:00.058  /  Read: 00:00:00.053  /  Write: 00:00:00.005
+   Total Time           : 00:00:08.109
+   Efficiency           : 99.3 %
+   Effective Rate       : 247/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.193
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.200
+   Efficiency           : 96.5 %
+   Effective Rate       : 10,000/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.907  /  Read: 00:00:01.679  /  Write: 00:00:16.228
+   Total CPU Time       : 00:00:00.210  /  Read: 00:00:00.078  /  Write: 00:00:00.132
+   Total Time           : 00:00:18.118
+   Efficiency           : 98.8 %
+   Effective Rate       : 110/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.184
+   Total CPU Time       : 00:00:00.010
+   Total Time           : 00:00:00.194
+   Efficiency           : 94.8 %
+   Effective Rate       : 10,309/sec
+
+=> TOTAL TEST TIME: 00:00:28.248
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:35:10
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.020
+Deserialize Baseline    : 00:00:00.129
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.524  /  Read: 00:00:01.506  /  Write: 00:00:07.018
+   Total CPU Time       : 00:00:00.067  /  Read: 00:00:00.065  /  Write: 00:00:00.002
+   Total Time           : 00:00:08.592
+   Efficiency           : 99.2 %
+   Effective Rate       : 233/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.159
+   Total CPU Time       : 00:00:00.008
+   Total Time           : 00:00:00.167
+   Efficiency           : 95.2 %
+   Effective Rate       : 11,976/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.894  /  Read: 00:00:01.634  /  Write: 00:00:16.260
+   Total CPU Time       : 00:00:00.219  /  Read: 00:00:00.079  /  Write: 00:00:00.140
+   Total Time           : 00:00:18.114
+   Efficiency           : 98.8 %
+   Effective Rate       : 110/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.171
+   Total CPU Time       : 00:00:00.011
+   Total Time           : 00:00:00.182
+   Efficiency           : 94.0 %
+   Effective Rate       : 10,989/sec
+
+=> TOTAL TEST TIME: 00:00:28.709
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:49:12
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.007
+Deserialize Baseline    : 00:00:00.093
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.517  /  Read: 00:00:01.594  /  Write: 00:00:06.923
+   Total CPU Time       : 00:00:00.067  /  Read: 00:00:00.064  /  Write: 00:00:00.003
+   Total Time           : 00:00:08.585
+   Efficiency           : 99.2 %
+   Effective Rate       : 233/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.217
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.222
+   Efficiency           : 97.7 %
+   Effective Rate       : 9,009/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:18.626  /  Read: 00:00:01.574  /  Write: 00:00:17.052
+   Total CPU Time       : 00:00:00.192  /  Read: 00:00:00.059  /  Write: 00:00:00.133
+   Total Time           : 00:00:18.819
+   Efficiency           : 99.0 %
+   Effective Rate       : 106/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.174
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.181
+   Efficiency           : 96.1 %
+   Effective Rate       : 11,050/sec
+
+=> TOTAL TEST TIME: 00:00:29.388
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:55:00
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.022
+Deserialize Baseline    : 00:00:00.135
+
+=> SAVES
+
+   Total SQL Time       : 00:00:09.156  /  Read: 00:00:01.510  /  Write: 00:00:07.646
+   Total CPU Time       : 00:00:00.067  /  Read: 00:00:00.064  /  Write: 00:00:00.003
+   Total Time           : 00:00:09.224
+   Efficiency           : 99.3 %
+   Effective Rate       : 217/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.182
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.189
+   Efficiency           : 96.3 %
+   Effective Rate       : 10,582/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.736  /  Read: 00:00:00.586  /  Write: 00:00:17.150
+   Total CPU Time       : 00:00:01.140  /  Read: 00:00:01.135  /  Write: 00:00:00.005
+   Total Time           : 00:00:18.877
+   Efficiency           : 94.0 %
+   Effective Rate       : 106/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.199
+   Total CPU Time       : 00:00:00.004
+   Total Time           : 00:00:00.203
+   Efficiency           : 98.0 %
+   Effective Rate       : 9,852/sec
+
+=> TOTAL TEST TIME: 00:00:30.203
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 12:57:44
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.132
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.005  /  Read: 00:00:01.547  /  Write: 00:00:06.458
+   Total CPU Time       : 00:00:00.058  /  Read: 00:00:00.057  /  Write: 00:00:00.001
+   Total Time           : 00:00:08.064
+   Efficiency           : 99.3 %
+   Effective Rate       : 248/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.175
+   Total CPU Time       : 00:00:00.011
+   Total Time           : 00:00:00.186
+   Efficiency           : 94.1 %
+   Effective Rate       : 10,753/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.594  /  Read: 00:00:01.754  /  Write: 00:00:15.840
+   Total CPU Time       : 00:00:00.144  /  Read: 00:00:00.134  /  Write: 00:00:00.010
+   Total Time           : 00:00:17.739
+   Efficiency           : 99.2 %
+   Effective Rate       : 113/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.180
+   Total CPU Time       : 00:00:00.013
+   Total Time           : 00:00:00.193
+   Efficiency           : 93.3 %
+   Effective Rate       : 10,363/sec
+
+=> TOTAL TEST TIME: 00:00:27.908
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 13:00:50
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.128
+
+=> SAVES
+
+   Total SQL Time       : 00:00:07.862  /  Read: 00:00:01.503  /  Write: 00:00:06.359
+   Total CPU Time       : 00:00:00.051  /  Read: 00:00:00.048  /  Write: 00:00:00.003
+   Total Time           : 00:00:07.914
+   Efficiency           : 99.4 %
+   Effective Rate       : 253/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.174
+   Total CPU Time       : 00:00:00.012
+   Total Time           : 00:00:00.186
+   Efficiency           : 93.5 %
+   Effective Rate       : 10,753/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.873  /  Read: 00:00:01.721  /  Write: 00:00:16.152
+   Total CPU Time       : 00:00:00.085  /  Read: 00:00:00.077  /  Write: 00:00:00.008
+   Total Time           : 00:00:17.959
+   Efficiency           : 99.5 %
+   Effective Rate       : 111/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.146
+   Total CPU Time       : 00:00:00.003
+   Total Time           : 00:00:00.149
+   Efficiency           : 98.0 %
+   Effective Rate       : 13,423/sec
+
+=> TOTAL TEST TIME: 00:00:27.849
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 13:49:25
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.131
+
+=> SAVES
+
+   Total SQL Time       : 00:00:09.200  /  Read: 00:00:01.602  /  Write: 00:00:07.598
+   Total CPU Time       : 00:00:00.073
+   Total Time           : 00:00:09.273
+   Efficiency           : 99.2 %
+   Effective Rate       : 216/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.208
+   Total CPU Time       : 00:00:00.008
+   Total Time           : 00:00:00.216
+   Efficiency           : 96.3 %
+   Effective Rate       : 9,259/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:21.772  /  Read: 00:00:03.579  /  Write: 00:00:18.193
+   Total CPU Time       : 00:00:-03.-463
+   Total Time           : 00:00:18.309
+   Efficiency           : 118.9 %
+   Effective Rate       : 109/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.219
+   Total CPU Time       : 00:00:00.004
+   Total Time           : 00:00:00.223
+   Efficiency           : 98.2 %
+   Effective Rate       : 8,969/sec
+
+=> TOTAL TEST TIME: 00:00:29.694
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 13:53:01
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.126
+
+=> SAVES
+
+   Total SQL Time       : 00:00:07.862  /  Read: 00:00:01.630  /  Write: 00:00:06.232
+   Total CPU Time       : 00:00:00.050
+   Total Time           : 00:00:07.912
+   Efficiency           : 99.4 %
+   Effective Rate       : 253/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.227
+   Total CPU Time       : 00:00:00.001
+   Total Time           : 00:00:00.228
+   Efficiency           : 99.6 %
+   Effective Rate       : 8,772/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:21.605  /  Read: 00:00:03.633  /  Write: 00:00:17.972
+   Total CPU Time       : 00:00:-03.-376
+   Total Time           : 00:00:18.229
+   Efficiency           : 118.5 %
+   Effective Rate       : 110/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.221
+   Total CPU Time       : 00:00:00.000
+   Total Time           : 00:00:00.221
+   Efficiency           : 100.0 %
+   Effective Rate       : 9,050/sec
+
+=> TOTAL TEST TIME: 00:00:28.196
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 13:56:21
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.022
+Deserialize Baseline    : 00:00:00.142
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.266  /  Read: 00:00:01.579  /  Write: 00:00:06.687
+   Total CPU Time       : 00:00:00.092
+   Total Time           : 00:00:08.358
+   Efficiency           : 98.9 %
+   Effective Rate       : 239/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.193
+   Total CPU Time       : 00:00:00.006
+   Total Time           : 00:00:00.199
+   Efficiency           : 97.0 %
+   Effective Rate       : 10,050/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:20.500  /  Read: 00:00:02.689  /  Write: 00:00:17.811
+   Total CPU Time       : 00:00:-02.-217
+   Total Time           : 00:00:18.283
+   Efficiency           : 112.1 %
+   Effective Rate       : 109/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.153
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.158
+   Efficiency           : 96.8 %
+   Effective Rate       : 12,658/sec
+
+=> TOTAL TEST TIME: 00:00:28.699
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 13:58:53
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.130
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.816  /  Read: 00:00:01.626  /  Write: 00:00:07.190
+   Total CPU Time       : 00:00:00.103
+   Total Time           : 00:00:08.919
+   Efficiency           : 98.8 %
+   Effective Rate       : 224/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.180
+   Total CPU Time       : 00:00:00.011
+   Total Time           : 00:00:00.191
+   Efficiency           : 94.2 %
+   Effective Rate       : 10,471/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:20.325  /  Read: 00:00:02.615  /  Write: 00:00:17.710
+   Total CPU Time       : 00:00:-02.-267
+   Total Time           : 00:00:18.058
+   Efficiency           : 112.6 %
+   Effective Rate       : 111/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.185
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.192
+   Efficiency           : 96.4 %
+   Effective Rate       : 10,417/sec
+
+=> TOTAL TEST TIME: 00:00:28.959
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:01:09
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.136
+
+=> SAVES
+
+   Total SQL Time       : 00:00:09.134  /  Read: 00:00:01.600  /  Write: 00:00:07.534
+   Total CPU Time       : 00:00:00.083
+   Total Time           : 00:00:09.217
+   Efficiency           : 99.1 %
+   Effective Rate       : 217/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.170
+   Total CPU Time       : 00:00:00.009
+   Total Time           : 00:00:00.179
+   Efficiency           : 95.0 %
+   Effective Rate       : 11,173/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:23.049  /  Read: 00:00:02.854  /  Write: 00:00:20.195
+   Total CPU Time       : 00:00:-02.-452
+   Total Time           : 00:00:20.597
+   Efficiency           : 111.9 %
+   Effective Rate       : 97/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.208
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.213
+   Efficiency           : 97.7 %
+   Effective Rate       : 9,390/sec
+
+=> TOTAL TEST TIME: 00:00:32.078
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:03:10
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.023
+Deserialize Baseline    : 00:00:00.139
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.392  /  Read: 00:00:01.745  /  Write: 00:00:06.647
+   Total CPU Time       : 00:00:00.042
+   Total Time           : 00:00:08.434
+   Efficiency           : 99.5 %
+   Effective Rate       : 237/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.212
+   Total CPU Time       : 00:00:00.001
+   Total Time           : 00:00:00.213
+   Efficiency           : 99.5 %
+   Effective Rate       : 9,390/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:20.290  /  Read: 00:00:02.778  /  Write: 00:00:17.512
+   Total CPU Time       : 00:00:-02.-312
+   Total Time           : 00:00:17.978
+   Efficiency           : 112.9 %
+   Effective Rate       : 111/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.204
+   Total CPU Time       : 00:00:00.000
+   Total Time           : 00:00:00.204
+   Efficiency           : 100.0 %
+   Effective Rate       : 9,804/sec
+
+=> TOTAL TEST TIME: 00:00:28.552
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:05:08
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.020
+Deserialize Baseline    : 00:00:00.130
+
+=> SAVES
+
+   Total SQL Time       : 00:00:09.049  /  Read: 00:00:01.631  /  Write: 00:00:07.418
+   Total CPU Time       : 00:00:00.071
+   Total Time           : 00:00:09.120
+   Efficiency           : 99.2 %
+   Effective Rate       : 219/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.172
+   Total CPU Time       : 00:00:00.002
+   Total Time           : 00:00:00.174
+   Efficiency           : 98.9 %
+   Effective Rate       : 11,494/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:20.134  /  Read: 00:00:01.855  /  Write: 00:00:18.279
+   Total CPU Time       : 00:00:-01.-509
+   Total Time           : 00:00:18.625
+   Efficiency           : 108.1 %
+   Effective Rate       : 107/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.200
+   Total CPU Time       : 00:00:00.001
+   Total Time           : 00:00:00.201
+   Efficiency           : 99.5 %
+   Effective Rate       : 9,950/sec
+
+=> TOTAL TEST TIME: 00:00:29.829
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:13:29
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.132
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.346  /  Read: 00:00:01.551  /  Write: 00:00:06.795
+   Total CPU Time       : 00:00:00.069
+   Total Time           : 00:00:08.415
+   Efficiency           : 99.2 %
+   Effective Rate       : 238/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.190
+   Total CPU Time       : 00:00:00.002
+   Total Time           : 00:00:00.192
+   Efficiency           : 99.0 %
+   Effective Rate       : 10,417/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.718  /  Read: 00:00:02.746  /  Write: 00:00:14.972
+   Total CPU Time       : 00:00:00.111
+   Total Time           : 00:00:17.829
+   Efficiency           : 99.4 %
+   Effective Rate       : 112/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.216
+   Total CPU Time       : 00:00:00.000
+   Total Time           : 00:00:00.216
+   Efficiency           : 100.0 %
+   Effective Rate       : 9,259/sec
+
+=> TOTAL TEST TIME: 00:00:28.342
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:15:14
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.028
+Deserialize Baseline    : 00:00:00.153
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.777  /  Read: 00:00:01.797  /  Write: 00:00:06.980
+   Total CPU Time       : 00:00:00.064
+   Total Time           : 00:00:08.841
+   Efficiency           : 99.3 %
+   Effective Rate       : 226/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.196
+   Total CPU Time       : 00:00:00.006
+   Total Time           : 00:00:00.202
+   Efficiency           : 97.0 %
+   Effective Rate       : 9,901/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:18.108  /  Read: 00:00:02.900  /  Write: 00:00:15.208
+   Total CPU Time       : 00:00:00.181
+   Total Time           : 00:00:18.289
+   Efficiency           : 99.0 %
+   Effective Rate       : 109/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.196
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.201
+   Efficiency           : 97.5 %
+   Effective Rate       : 9,950/sec
+
+=> TOTAL TEST TIME: 00:00:29.475
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:21:59
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.130
+
+=> SAVES
+
+   Total SQL Time       : 00:00:09.017  /  Read: 00:00:01.712  /  Write: 00:00:07.305
+   Total CPU Time       : 00:00:00.077
+   Total Time           : 00:00:09.094
+   Efficiency           : 99.2 %
+   Effective Rate       : 220/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.206
+   Total CPU Time       : 00:00:00.007
+   Total Time           : 00:00:00.213
+   Efficiency           : 96.7 %
+   Effective Rate       : 9,390/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:18.468  /  Read: 00:00:02.749  /  Write: 00:00:15.719
+   Total CPU Time       : 00:00:00.187
+   Total Time           : 00:00:18.655
+   Efficiency           : 99.0 %
+   Effective Rate       : 107/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.194
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.199
+   Efficiency           : 97.5 %
+   Effective Rate       : 10,050/sec
+
+=> TOTAL TEST TIME: 00:00:29.832
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:22:56
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.022
+Deserialize Baseline    : 00:00:00.130
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.875  /  Read: 00:00:01.696  /  Write: 00:00:07.179
+   Total CPU Time       : 00:00:00.081
+   Total Time           : 00:00:08.956
+   Efficiency           : 99.1 %
+   Effective Rate       : 223/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.219
+   Total CPU Time       : 00:00:00.008
+   Total Time           : 00:00:00.227
+   Efficiency           : 96.5 %
+   Effective Rate       : 8,811/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:18.515  /  Read: 00:00:02.692  /  Write: 00:00:15.823
+   Total CPU Time       : 00:00:00.182
+   Total Time           : 00:00:18.697
+   Efficiency           : 99.0 %
+   Effective Rate       : 107/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.186
+   Total CPU Time       : 00:00:00.004
+   Total Time           : 00:00:00.190
+   Efficiency           : 97.9 %
+   Effective Rate       : 10,526/sec
+
+=> TOTAL TEST TIME: 00:00:29.745
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:24:03
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.006
+Deserialize Baseline    : 00:00:00.099
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.237  /  Read: 00:00:01.636  /  Write: 00:00:06.601
+   Total CPU Time       : 00:00:00.048
+   Total Time           : 00:00:08.285
+   Efficiency           : 99.4 %
+   Effective Rate       : 241/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.227
+   Total CPU Time       : 00:00:00.004
+   Total Time           : 00:00:00.231
+   Efficiency           : 98.3 %
+   Effective Rate       : 8,658/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:20.716  /  Read: 00:00:03.113  /  Write: 00:00:17.603
+   Total CPU Time       : 00:00:00.084
+   Total Time           : 00:00:20.800
+   Efficiency           : 99.6 %
+   Effective Rate       : 96/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.210
+   Total CPU Time       : 00:00:00.006
+   Total Time           : 00:00:00.216
+   Efficiency           : 97.2 %
+   Effective Rate       : 9,259/sec
+
+=> TOTAL TEST TIME: 00:00:31.218
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:25:05
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.021
+Deserialize Baseline    : 00:00:00.131
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.372  /  Read: 00:00:01.620  /  Write: 00:00:06.752
+   Total CPU Time       : 00:00:00.049
+   Total Time           : 00:00:08.421
+   Efficiency           : 99.4 %
+   Effective Rate       : 238/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.187
+   Total CPU Time       : 00:00:00.004
+   Total Time           : 00:00:00.191
+   Efficiency           : 97.9 %
+   Effective Rate       : 10,471/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.441  /  Read: 00:00:02.869  /  Write: 00:00:14.572
+   Total CPU Time       : 00:00:00.103
+   Total Time           : 00:00:17.544
+   Efficiency           : 99.4 %
+   Effective Rate       : 114/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.181
+   Total CPU Time       : 00:00:00.005
+   Total Time           : 00:00:00.186
+   Efficiency           : 97.3 %
+   Effective Rate       : 10,753/sec
+
+=> TOTAL TEST TIME: 00:00:28.013
+
+DataStore Version 3.3 / SQL Server Version 15.0.4003 / Saturday, 28 May 2022 @ 14:33:45
+=======================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.006
+Deserialize Baseline    : 00:00:00.098
+
+=> SAVES
+
+   Total SQL Time       : 00:00:08.571  /  Read: 00:00:01.449  /  Write: 00:00:07.122
+   Total CPU Time       : 00:00:00.091
+   Total Time           : 00:00:08.662
+   Efficiency           : 98.9 %
+   Effective Rate       : 231/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.194
+   Total CPU Time       : 00:00:00.010
+   Total Time           : 00:00:00.204
+   Efficiency           : 95.1 %
+   Effective Rate       : 9,804/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:18.727  /  Read: 00:00:02.809  /  Write: 00:00:15.918
+   Total CPU Time       : 00:00:00.124
+   Total Time           : 00:00:18.851
+   Efficiency           : 99.3 %
+   Effective Rate       : 106/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.171
+   Total CPU Time       : 00:00:00.009
+   Total Time           : 00:00:00.180
+   Efficiency           : 95.0 %
+   Effective Rate       : 11,111/sec
+
+=> TOTAL TEST TIME: 00:00:29.490
+
