@@ -150,7 +150,7 @@ foreach (DsObject dso in users)
 
 ```
 
-**Remember:** these JSON features are read only. If you change a property value in the DsObject you will need to call *Serialize()* again to update the JSON representation.
+**Remember:** these JSON features are read-only. If you change a property value in the DsObject you will need to call *Serialize()* again to update the JSON representation.
 
 
 ### Project
