@@ -92,7 +92,7 @@ Querying the database for objects is simple too. In any read calls you can speci
 var users = await dataStore.GetManyAsync<User>(
     page: 1,
     perPage: 50,
-    new DsQuery("User")
+    new DsQuery()
         .StringProp("LastName").EqualTo("Argentini")
         .AND()
         .StringProp("Permissions.Role").EqualTo("admin")
@@ -113,7 +113,7 @@ Or you can use the model structure to specify names, and make code refactoring e
 var users = await dataStore.GetManyAsync<User>(
     page: 1,
     perPage: 50,
-    new DsQuery("User")
+    new DsQuery()
         .StringProp<User>(u => u.LastName).EqualTo("Argentini")
         .AND()
         .StringProp<User, Role>(u => u.Permissions, r => r.Role).EqualTo("admin")
