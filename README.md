@@ -128,7 +128,7 @@ var users = await dataStore.GetManyAsync<User>(
 );
 ```
 
-### Dynamic Object Access
+### Dynamic Property Access
 
 If you need to access object properties without knowing the object type, DsObject exposes JSON features that allow you to access property values using standard JSON path syntax:
 
