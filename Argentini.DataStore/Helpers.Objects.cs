@@ -11,7 +11,7 @@ public static class Objects
 	/// </summary>
 	/// <param name="baseType"></param>
 	/// <returns></returns>
-	public static IEnumerable<Type> GetInheritedClasses(Type baseType, bool excludeSystemAssemblies = true)
+	public static IEnumerable<Type> GetInheritedTypes(Type baseType, bool excludeSystemAssemblies = true)
 	{
 		var types = new List<Type>();
 		
@@ -31,7 +31,7 @@ public static class Objects
 	/// <param name="type">The type to check</param>
 	/// <returns>A boolean indicating whether the type is a simple type or not</returns>
 	// ReSharper disable once MemberCanBePrivate.Global
-	public static bool IsSimpleType(this Type type)
+	public static bool IsSimpleDataType(this Type type)
 	{
 		return type.IsValueType || type.IsEnum || type == typeof(string);
 	}
@@ -42,9 +42,9 @@ public static class Objects
 	/// </summary>
 	/// <param name="source">Clone this object's fields and properties</param>
 	/// <param name="destination">Clone</param>
-	public static void CloneTo<T>(this T? source, T? destination)
+	public static void CloneObjectTo<T>(this T? source, T? destination)
 	{
-		Tasks.WaitForTask(CloneToAsync(source, destination));		
+		Tasks.WaitForTaskToComplete(CloneObjectToAsync(source, destination));		
 	}
 	
 	/// <summary>
@@ -53,13 +53,13 @@ public static class Objects
 	/// </summary>
 	/// <param name="source">Clone this object's fields and properties</param>
 	/// <param name="destination">Clone</param>
-	public static async Task CloneToAsync<T>(this T? source, T? destination)
+	public static async Task CloneObjectToAsync<T>(this T? source, T? destination)
 	{
-		if (source == null || destination == null) throw new Exception("Helpers.CloneToAsync() => Source and destination cannot be null");
+		if (source == null || destination == null) throw new Exception("Helpers.CloneObjectToAsync() => Source and destination cannot be null");
 		
-		if (typeof(T).IsSimpleType()) throw new Exception("Helpers.CloneToAsync() => Cannot use on value types");
+		if (typeof(T).IsSimpleDataType()) throw new Exception("Helpers.CloneObjectToAsync() => Cannot use on value types");
 
-		if (typeof(T) == typeof(StringBuilder)) throw new Exception("Helpers.CloneToAsync() => Cannot use on StringBuilder");
+		if (typeof(T) == typeof(StringBuilder)) throw new Exception("Helpers.CloneObjectToAsync() => Cannot use on StringBuilder");
 
 		await CloneProperties(source, destination);
 	}
@@ -88,19 +88,19 @@ public static class Objects
 
 	private static async Task ClonePropertyOrFieldValue(this MemberInfo propertyOrField, object source, object destination)
 	{
-		var propValue = propertyOrField.GetValue(source);
-		var valueType = propertyOrField.GetMemberType();
+		var propValue = propertyOrField.GetMemberValue(source);
+		var valueType = propertyOrField.GetMemberPropertyOrFieldType();
 
 		if (propValue != null)
 		{
 			if (valueType == typeof(StringBuilder))
 			{
-				propertyOrField.SetValue(destination, (propValue as StringBuilder)?.CreateClone() ?? new StringBuilder());
+				propertyOrField.SetMemberValue(destination, (propValue as StringBuilder)?.SbCreateClone() ?? new StringBuilder());
 			}
 
-			else if (valueType.IsSimpleType())
+			else if (valueType.IsSimpleDataType())
 			{
-				propertyOrField.SetValue(destination, propValue);
+				propertyOrField.SetMemberValue(destination, propValue);
 			}
 
 			else if (valueType.IsClass)
@@ -120,7 +120,7 @@ public static class Objects
 
 								foreach (var item in list)
 								{
-									if (arrayType.IsSimpleType())
+									if (arrayType.IsSimpleDataType())
 									{
 										newArray.SetValue(item, index++);
 									}
@@ -135,7 +135,7 @@ public static class Objects
 									}
 								}
 
-								propertyOrField.SetValue(destination, newArray);
+								propertyOrField.SetMemberValue(destination, newArray);
 							}
 						}
 
@@ -147,7 +147,7 @@ public static class Objects
 								{
 									foreach (var item in list)
 									{
-										if (enumerableType.IsSimpleType())
+										if (enumerableType.IsSimpleDataType())
 										{
 											mpl.Add(item);
 										}
@@ -162,7 +162,7 @@ public static class Objects
 										}
 									}
 
-									propertyOrField.SetValue(destination, mpl);
+									propertyOrField.SetMemberValue(destination, mpl);
 								}
 							}
 						}
@@ -181,7 +181,7 @@ public static class Objects
 								{
 									var kvp = new DictionaryEntry();
 
-									if (kvpKeyType.IsSimpleType())
+									if (kvpKeyType.IsSimpleDataType())
 									{
 										kvp.Key = ((DictionaryEntry) item).Key;
 									}
@@ -195,7 +195,7 @@ public static class Objects
 										kvp.Key = subModel!;
 									}
 
-									if (kvpValueType.IsSimpleType())
+									if (kvpValueType.IsSimpleDataType())
 									{
 										kvp.Value = ((DictionaryEntry) item).Value;
 									}
@@ -212,7 +212,7 @@ public static class Objects
 									newDict.Add(kvp.Key, kvp.Value);
 								}
 
-								propertyOrField.SetValue(destination, newDict);
+								propertyOrField.SetMemberValue(destination, newDict);
 							}
 						}
 					}
@@ -224,13 +224,13 @@ public static class Objects
 
 					await CloneProperties(propValue, subModel);
 
-					propertyOrField.SetValue(destination, subModel);
+					propertyOrField.SetMemberValue(destination, subModel);
 				}
 			}
 		}
 	}
 	
-	public static object? GetValue(this MemberInfo member, object srcObject)
+	public static object? GetMemberValue(this MemberInfo member, object srcObject)
 	{
 		return member switch
 		{
@@ -241,9 +241,9 @@ public static class Objects
 				nameof(member))
 		};
 	}
-	public static T? GetValue<T>(this MemberInfo member, object srcObject) => (T?)member.GetValue(srcObject);
+	public static T? GetMemberValue<T>(this MemberInfo member, object srcObject) => (T?)member.GetMemberValue(srcObject);
 
-	public static void SetValue(this MemberInfo member, object destObject, object? value)
+	public static void SetMemberValue(this MemberInfo member, object destObject, object? value)
 	{
 		switch (member) {
 			case FieldInfo mfi:
@@ -259,9 +259,9 @@ public static class Objects
 				throw new ArgumentException("MemberInfo must be of type FieldInfo, PropertyInfo, or MethodInfo", nameof(member));
 		}
 	}
-	public static void SetValue<T>(this MemberInfo member, object destObject, T value) => member.SetValue(destObject, (object?)value);	
+	public static void SetMemberValue<T>(this MemberInfo member, object destObject, T value) => member.SetMemberValue(destObject, (object?)value);	
 	
-	public static Type GetMemberType(this MemberInfo member)
+	public static Type GetMemberPropertyOrFieldType(this MemberInfo member)
 	{
 		return member switch
 		{
@@ -278,7 +278,7 @@ public static class Objects
 	/// </summary>
 	/// <param name="source">Clone this object's fields and properties</param>
 	/// <param name="duplicate">Clone</param>
-	public static bool SameAs<T>(this T? source, T? duplicate)
+	public static bool SameAsObject<T>(this T? source, T? duplicate)
 	{
 		var same = true;
 		
@@ -347,7 +347,7 @@ public static class Objects
 
 	private static bool IsBasicType(this Type valueType)
 	{
-		if (valueType.IsSimpleType() || valueType == typeof(DateTime) || valueType == typeof(DateTimeOffset) || valueType == typeof(StringBuilder))
+		if (valueType.IsSimpleDataType() || valueType == typeof(DateTime) || valueType == typeof(DateTimeOffset) || valueType == typeof(StringBuilder))
 		{
 			return true;
 		}
@@ -391,7 +391,7 @@ public static class Objects
 				return false;
 			}
 
-			if (valueType.IsSimpleType()) return source.Equals(duplicate);
+			if (valueType.IsSimpleDataType()) return source.Equals(duplicate);
 
 			if (valueType == typeof(StringBuilder))
 			{
@@ -418,9 +418,9 @@ public static class Objects
 		
 		if (source != null && duplicate != null)
 		{
-			var sourceValue = propertyOrField.GetValue(source);
-			var duplicateValue = propertyOrField.GetValue(duplicate);
-			var valueType = propertyOrField.GetMemberType();
+			var sourceValue = propertyOrField.GetMemberValue(source);
+			var duplicateValue = propertyOrField.GetMemberValue(duplicate);
+			var valueType = propertyOrField.GetMemberPropertyOrFieldType();
 
 			if (sourceValue == null && duplicateValue == null) return true;
 			if (sourceValue == null && duplicateValue != null) return false;

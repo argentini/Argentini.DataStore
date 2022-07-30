@@ -5,16 +5,16 @@ public static class Hashing
 	/// <summary>
 	/// Calculate the CRC-32 of a string.
 	/// </summary>
-	public static uint Crc32(this string payload)
+	public static uint CalculateCrc32(this string payload)
 	{
-		return payload.ToByteArray().Crc32();
+		return payload.StringToByteArray().CalculateCrc32();
 	}
 
 	/// <summary>
 	/// Calculate the CRC-32 of a byte array.
 	/// </summary>
 	// ReSharper disable once MemberCanBePrivate.Global
-	public static uint Crc32(this IEnumerable<byte> payload)
+	public static uint CalculateCrc32(this IEnumerable<byte> payload)
 	{
 		const uint sGenerator = 0xEDB88320;
 

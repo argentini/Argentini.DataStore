@@ -59,7 +59,7 @@ public class DsQueryStringPropComparison: DsQueryPropComparisonBase
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery EqualTo(string value, bool caseSensitive = false)
     {
-        Query.Query.Append($" = '{value.SqlSanitize()}'{(caseSensitive ? " COLLATE Latin1_General_CS_AS" : string.Empty)}");
+        Query.Query.Append($" = '{value.SqlSanitizeString()}'{(caseSensitive ? " COLLATE Latin1_General_CS_AS" : string.Empty)}");
 
         return Query;
     }
@@ -117,7 +117,7 @@ public class DsQueryStringPropComparison: DsQueryPropComparisonBase
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery StartsWith(string value, bool caseSensitive = false)
     {
-        Query.Query.Append($" LIKE '{value.SqlSanitize()}%'{(caseSensitive ? " COLLATE Latin1_General_CS_AS" : string.Empty)}");
+        Query.Query.Append($" LIKE '{value.SqlSanitizeString()}%'{(caseSensitive ? " COLLATE Latin1_General_CS_AS" : string.Empty)}");
 
         return Query;
     }
@@ -128,7 +128,7 @@ public class DsQueryStringPropComparison: DsQueryPropComparisonBase
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery EndsWith(string value, bool caseSensitive = false)
     {
-        Query.Query.Append($" LIKE '%{value.SqlSanitize()}'{(caseSensitive ? " COLLATE Latin1_General_CS_AS" : string.Empty)}");
+        Query.Query.Append($" LIKE '%{value.SqlSanitizeString()}'{(caseSensitive ? " COLLATE Latin1_General_CS_AS" : string.Empty)}");
 
         return Query;
     }
@@ -139,7 +139,7 @@ public class DsQueryStringPropComparison: DsQueryPropComparisonBase
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery Contains(string value, bool caseSensitive = false)
     {
-        Query.Query.Append($" LIKE '%{value.SqlSanitize()}%'{(caseSensitive ? " COLLATE Latin1_General_CS_AS" : string.Empty)}");
+        Query.Query.Append($" LIKE '%{value.SqlSanitizeString()}%'{(caseSensitive ? " COLLATE Latin1_General_CS_AS" : string.Empty)}");
 
         return Query;
     }
@@ -161,7 +161,7 @@ public class DsQueryStringPropComparison: DsQueryPropComparisonBase
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery HasValue()
     {
-        Query.Query.TrimEnd($"[{Query.LastFieldName}]");            
+        Query.Query.SbTrimEnd($"[{Query.LastFieldName}]");            
         Query.Query.Append($"([{Query.LastFieldName}] IS NOT NULL AND [{Query.LastFieldName}] <> '')");
         
         return Query;
@@ -173,7 +173,7 @@ public class DsQueryStringPropComparison: DsQueryPropComparisonBase
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery IsNullOrEmpty()
     {
-        Query.Query.TrimEnd($"[{Query.LastFieldName}]");            
+        Query.Query.SbTrimEnd($"[{Query.LastFieldName}]");            
         Query.Query.Append($"([{Query.LastFieldName}] IS NULL OR [{Query.LastFieldName}] = '')");
         
         return Query;
@@ -188,6 +188,6 @@ public class DsQueryStringPropComparison: DsQueryPropComparisonBase
     /// <returns>Value formatted for use in the SQL WHERE clause</returns>
     public static string ProcessValue(string value)
     {
-        return "'" + value.SqlSanitize() + "'";
+        return "'" + value.SqlSanitizeString() + "'";
     }
 }

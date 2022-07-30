@@ -14,13 +14,13 @@ public static class SqlTools
 	/// <param name="sqlDataReader"></param>
 	/// <param name="columnName"></param>
 	/// <returns></returns>
-	public static bool ColumnExists(this SqlDataReader sqlDataReader, string columnName)
+	public static bool SqlColumnExists(this SqlDataReader sqlDataReader, string columnName)
 	{
 		var result = false;
 
 		try
 		{
-			if (columnName.HasValue())
+			if (columnName.StringHasValue())
 			{
 				if (sqlDataReader.IsClosed == false)
 				{
@@ -50,13 +50,13 @@ public static class SqlTools
 	/// <param name="sqlDataReader"></param>
 	/// <param name="columnName"></param>
 	/// <returns></returns>
-	public static int ColumnIndex(this SqlDataReader sqlDataReader, string columnName)
+	public static int SqlColumnIndex(this SqlDataReader sqlDataReader, string columnName)
 	{
 		var result = -1;
 
 		try
 		{
-			if (columnName.HasValue())
+			if (columnName.StringHasValue())
 			{
 				if (sqlDataReader.IsClosed == false)
 				{
@@ -87,9 +87,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static async Task<string> SafeGetStringAsync(this SqlDataReader sqlDataReader, string columnName, string defaultValue = "")
+	public static async Task<string> SqlSafeGetStringAsync(this SqlDataReader sqlDataReader, string columnName, string defaultValue = "")
 	{
-		if (sqlDataReader.ColumnExists(columnName))
+		if (sqlDataReader.SqlColumnExists(columnName))
 		{
 			return await sqlDataReader.IsDBNullAsync(columnName) ? defaultValue : sqlDataReader.GetString(columnName);
 		}
@@ -104,9 +104,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static string SafeGetString(this SqlDataReader sqlDataReader, string columnName, string defaultValue = "")
+	public static string SqlSafeGetString(this SqlDataReader sqlDataReader, string columnName, string defaultValue = "")
 	{
-		return Tasks.RunSync(() => SafeGetStringAsync(sqlDataReader, columnName, defaultValue));
+		return Tasks.RunSynchronous(() => SqlSafeGetStringAsync(sqlDataReader, columnName, defaultValue));
 	}
 
 	/// <summary>
@@ -116,9 +116,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static async Task<Guid> SafeGetGuidAsync(this SqlDataReader sqlDataReader, string columnName, Guid defaultValue = new ())
+	public static async Task<Guid> SqlSafeGetGuidAsync(this SqlDataReader sqlDataReader, string columnName, Guid defaultValue = new ())
 	{
-		if (sqlDataReader.ColumnExists(columnName))
+		if (sqlDataReader.SqlColumnExists(columnName))
 		{
 			return await sqlDataReader.IsDBNullAsync(columnName) ? defaultValue : sqlDataReader.GetGuid(columnName);
 		}
@@ -133,9 +133,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static Guid SafeGetGuid(this SqlDataReader sqlDataReader, string columnName, Guid defaultValue = new ())
+	public static Guid SqlSafeGetGuid(this SqlDataReader sqlDataReader, string columnName, Guid defaultValue = new ())
 	{
-		return Tasks.RunSync(() => SafeGetGuidAsync(sqlDataReader, columnName, defaultValue));
+		return Tasks.RunSynchronous(() => SqlSafeGetGuidAsync(sqlDataReader, columnName, defaultValue));
 	}
 	
 	/// <summary>
@@ -145,9 +145,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static async Task<int> SafeGetIntAsync(this SqlDataReader sqlDataReader, string columnName, int defaultValue = 0)
+	public static async Task<int> SqlSafeGetIntAsync(this SqlDataReader sqlDataReader, string columnName, int defaultValue = 0)
 	{
-		if (sqlDataReader.ColumnExists(columnName))
+		if (sqlDataReader.SqlColumnExists(columnName))
 		{
 			return await sqlDataReader.IsDBNullAsync(columnName) ? defaultValue : sqlDataReader.GetInt32(columnName);
 		}
@@ -162,9 +162,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static int SafeGetInt(this SqlDataReader sqlDataReader, string columnName, int defaultValue = 0)
+	public static int SqlSafeGetInt(this SqlDataReader sqlDataReader, string columnName, int defaultValue = 0)
 	{
-		return Tasks.RunSync(() => SafeGetIntAsync(sqlDataReader, columnName, defaultValue));
+		return Tasks.RunSynchronous(() => SqlSafeGetIntAsync(sqlDataReader, columnName, defaultValue));
 	}
 	
 	/// <summary>
@@ -174,9 +174,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static async Task<long> SafeGetLongAsync(this SqlDataReader sqlDataReader, string columnName, long defaultValue = 0)
+	public static async Task<long> SqlSafeGetLongAsync(this SqlDataReader sqlDataReader, string columnName, long defaultValue = 0)
 	{
-		if (sqlDataReader.ColumnExists(columnName))
+		if (sqlDataReader.SqlColumnExists(columnName))
 		{
 			return await sqlDataReader.IsDBNullAsync(columnName) ? defaultValue : sqlDataReader.GetInt64(columnName);
 		}
@@ -191,9 +191,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static long SafeGetLong(this SqlDataReader sqlDataReader, string columnName, long defaultValue = 0)
+	public static long SqlSafeGetLong(this SqlDataReader sqlDataReader, string columnName, long defaultValue = 0)
 	{
-		return Tasks.RunSync(() => SafeGetLongAsync(sqlDataReader, columnName, defaultValue));
+		return Tasks.RunSynchronous(() => SqlSafeGetLongAsync(sqlDataReader, columnName, defaultValue));
 	}
 	
 	/// <summary>
@@ -203,9 +203,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static async Task<double> SafeGetDoubleAsync(this SqlDataReader sqlDataReader, string columnName, double defaultValue = 0)
+	public static async Task<double> SqlSafeGetDoubleAsync(this SqlDataReader sqlDataReader, string columnName, double defaultValue = 0)
 	{
-		if (sqlDataReader.ColumnExists(columnName))
+		if (sqlDataReader.SqlColumnExists(columnName))
 		{
 			return await sqlDataReader.IsDBNullAsync(columnName) ? defaultValue : sqlDataReader.GetDouble(columnName);
 		}
@@ -220,9 +220,9 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static double SafeGetDouble(this SqlDataReader sqlDataReader, string columnName, double defaultValue = 0)
+	public static double SqlSafeGetDouble(this SqlDataReader sqlDataReader, string columnName, double defaultValue = 0)
 	{
-		return Tasks.RunSync(() => SafeGetDoubleAsync(sqlDataReader, columnName, defaultValue));
+		return Tasks.RunSynchronous(() => SqlSafeGetDoubleAsync(sqlDataReader, columnName, defaultValue));
 	}
 	
 	/// <summary>
@@ -232,11 +232,11 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static async Task<DateTimeOffset> SafeGetDateTimeOffsetAsync(this SqlDataReader sqlDataReader, string columnName, DateTimeOffset defaultValue = new ())
+	public static async Task<DateTimeOffset> SqlSafeGetDateTimeOffsetAsync(this SqlDataReader sqlDataReader, string columnName, DateTimeOffset defaultValue = new ())
 	{
-		var columnIndex = sqlDataReader.ColumnIndex(columnName);
+		var columnIndex = sqlDataReader.SqlColumnIndex(columnName);
 		
-		if (sqlDataReader.ColumnExists(columnName) && columnIndex > -1)
+		if (sqlDataReader.SqlColumnExists(columnName) && columnIndex > -1)
 		{
 			return await sqlDataReader.IsDBNullAsync(columnName) ? defaultValue : sqlDataReader.GetDateTimeOffset(columnIndex);
 		}
@@ -251,16 +251,16 @@ public static class SqlTools
 	/// <param name="columnName"></param>
 	/// <param name="defaultValue"></param>
 	/// <returns></returns>
-	public static DateTimeOffset SafeGetDateTimeOffset(this SqlDataReader sqlDataReader, string columnName, DateTimeOffset defaultValue = new ())
+	public static DateTimeOffset SqlSafeGetDateTimeOffset(this SqlDataReader sqlDataReader, string columnName, DateTimeOffset defaultValue = new ())
 	{
-		return Tasks.RunSync(() => SafeGetDateTimeOffsetAsync(sqlDataReader, columnName, defaultValue));
+		return Tasks.RunSynchronous(() => SqlSafeGetDateTimeOffsetAsync(sqlDataReader, columnName, defaultValue));
 	}
 }
 
 /// <summary>
-/// Settings for the SqlExecute class.
+/// Settings for the SqlExec class.
 /// </summary>
-public class SqlExecuteSettings
+public class SqlExecSettings
 {
 	public string CommandString { get; init; } = string.Empty;
 	public string SqlConnectionString { get; init; } = string.Empty;
@@ -274,7 +274,7 @@ public class SqlExecuteSettings
 
 	public int CommandTimeoutSeconds { get; init; }
 
-	public SqlExecuteSettings()
+	public SqlExecSettings()
 	{
 		_parametersDictionary = new Dictionary<string, object>();
 	}
@@ -284,7 +284,7 @@ public class SqlExecuteSettings
 /// Execute a T-SQL stored procedure or command text that has no return value.
 /// Does not need to be disposed.
 /// </summary>
-public sealed class SqlExecute
+public sealed class SqlExec
 {
 	/// <summary>
 	/// Instantiate the class and execute the T-SQL code.
@@ -293,7 +293,7 @@ public sealed class SqlExecute
 	/// <code>
 	/// try
 	/// {
-	///     var execute = new SqlExecute(new SqlExecuteSettings
+	///     var execute = new SqlExec(new SqlExecSettings
 	///     {
 	///         SqlConnectionString = sqlConnectionString,
 	///         CommandString = commandText
@@ -306,19 +306,19 @@ public sealed class SqlExecute
 	/// }
 	/// </code>
 	/// </example>
-	/// <param name="sqlExecuteSettings"></param>
-	public SqlExecute(SqlExecuteSettings sqlExecuteSettings)
+	/// <param name="sqlExecSettings"></param>
+	public SqlExec(SqlExecSettings sqlExecSettings)
 	{
-		using (var sqlConnection = new SqlConnection(sqlExecuteSettings.SqlConnectionString))
+		using (var sqlConnection = new SqlConnection(sqlExecSettings.SqlConnectionString))
 		{
 			using (var sqlCmd = new SqlCommand())
 			{
-				sqlCmd.CommandText = sqlExecuteSettings.CommandString;
+				sqlCmd.CommandText = sqlExecSettings.CommandString;
 				sqlCmd.Connection = sqlConnection;
 
-				if (sqlExecuteSettings.ParametersDictionary.Any())
+				if (sqlExecSettings.ParametersDictionary.Any())
 				{
-					foreach (var (key, value) in sqlExecuteSettings.ParametersDictionary)
+					foreach (var (key, value) in sqlExecSettings.ParametersDictionary)
 					{
 						sqlCmd.Parameters.AddWithValue(key, value);
 					}
@@ -341,7 +341,7 @@ public sealed class SqlExecute
 					if (sqlConnection.State != ConnectionState.Closed)
 						sqlConnection.Close();
 
-					throw new Exception($"Helpers.SqlExecute() => {e.Message}");
+					throw new Exception($"Helpers.SqlExec() => {e.Message}");
 				}
 			}
 

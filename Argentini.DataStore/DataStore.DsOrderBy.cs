@@ -41,12 +41,12 @@ public class DsOrderBy
         {
             _orderByClause.Clear();
                 
-            if (OrderBy.HasValue())
+            if (OrderBy.SbHasValue())
             {
                 _orderByClause.Append(OrderBy);
             }
 
-            if (_orderByClause.IsEmpty())
+            if (_orderByClause.SbIsEmpty())
             {
                 FieldNames.Add("Sort");
                 _orderByClause.Append("[Sort] ASC");
@@ -101,7 +101,7 @@ public class DsOrderBy
     
     public void EnsureComma()
     {
-        if (OrderBy.HasValue())
+        if (OrderBy.SbHasValue())
         {
             OrderBy.Append(", ");
         }

@@ -83,7 +83,7 @@ public class DsObject : IDisposable
     {
         get
         {
-            if (json.IsEmpty()) Serialize();
+            if (json.StringIsEmpty()) Serialize();
 
             return json;
         }
@@ -124,7 +124,7 @@ public class DsObject : IDisposable
             json = JsonSerializer.Serialize(this, GetType(), serializerContext);
         }
 
-        if (json.IsEmpty())
+        if (json.StringIsEmpty())
         {
             json = JsonSerializer.Serialize(this, GetType(), DataStore.JsonSerializerOptions);
         }
@@ -140,7 +140,7 @@ public class DsObject : IDisposable
     /// <param name="dataStore"></param>
     public async Task Deserialize(string jsonText, DataStore? dataStore = null)
     {
-        if (jsonText.HasValue())
+        if (jsonText.StringHasValue())
         {
             var tableName = DataStore.GenerateTableName(GetType());
             var serializerContext = dataStore?.GetSerializerContext(tableName);
@@ -158,7 +158,7 @@ public class DsObject : IDisposable
 
             if (newDso != null)
             {
-                await newDso.CloneToAsync(this);
+                await newDso.CloneObjectToAsync(this);
             }
         }
     }
@@ -206,19 +206,19 @@ public class DsObject : IDisposable
         var results = new List<object?>();
         var internalTypes = typeof(DsObject).GetProperties().Select(p => p.Name);
 
-        if (json.IsEmpty())
+        if (json.StringIsEmpty())
             Serialize();
         
         jsonDocument ??= JsonDocument.Parse(json);
         
-        if (internalTypes.Contains(propertyPath.TrimStart("$.")))
+        if (internalTypes.Contains(propertyPath.TrimStringStart("$.")))
         {
-            results.Add(typeof(DsObject).GetProperty(propertyPath.TrimStart("$.") ?? string.Empty)?.GetValue(this));
+            results.Add(typeof(DsObject).GetProperty(propertyPath.TrimStringStart("$.") ?? string.Empty)?.GetValue(this));
         }
 
         else
         {
-            if (propertyPath.HasValue())
+            if (propertyPath.StringHasValue())
             {
                 var elements = JsonSelector.Select(jsonDocument.RootElement, propertyPath);
 
@@ -228,7 +228,7 @@ public class DsObject : IDisposable
                     {
                         object? model = null;
 
-                        if (type.IsSimpleType() == false)
+                        if (type.IsSimpleDataType() == false)
                         {
                             model = element.Deserialize(type, DataStore.JsonSerializerOptions);
                         }
@@ -523,7 +523,7 @@ public class DsObject : IDisposable
         
         #region Handle standard JSON properties
         
-        if (propName.IsEmpty())
+        if (propName.StringIsEmpty())
         {
             var name = expression.Parameters[0].Name;
             propName = expression.ToString().Replace($"{name} => {name}.", string.Empty);
@@ -537,9 +537,9 @@ public class DsObject : IDisposable
         
         #endregion
 
-        var result = $"{(pathPrefix.HasValue() ? pathPrefix.TrimEnd('.') + "." : "")}{propName}";
+        var result = $"{(pathPrefix.StringHasValue() ? pathPrefix.TrimEnd('.') + "." : "")}{propName}";
 
-        if (forJsonPath && expression.Body.Type.IsSimpleType() == false)
+        if (forJsonPath && expression.Body.Type.IsSimpleDataType() == false)
         {
             if (Activator.CreateInstance(expression.Body.Type) is IList || Activator.CreateInstance(expression.Body.Type) is Array)
             {

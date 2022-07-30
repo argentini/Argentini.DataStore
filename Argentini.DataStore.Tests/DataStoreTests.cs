@@ -55,7 +55,7 @@ public class DataStoreTests
         _firstName = Faker.Name.First();
         _middleName = Faker.Name.Middle();
         _lastName = Faker.Name.Last();
-        _fullName = Strings.SortableName(_firstName, _middleName, _lastName);
+        _fullName = Strings.SortableNameString(_firstName, _middleName, _lastName);
 
         _dso = new TestModel
         {
@@ -70,7 +70,7 @@ public class DataStoreTests
             NullTest = null,
             Message = @"Now is the time ""for"" all good men!!",
             Phone = Faker.Phone.Number(),
-            Email = _fullName.MakeSlug() + "@example.com",
+            Email = _fullName.ToSlugString() + "@example.com",
             Dob = new DateTimeOffset(1970, 6, 1, 0, 0, 0, TimeSpan.FromHours(5)),
             Dob2 = _dob2,
             OptIn = Faker.Boolean.Random(),
@@ -96,9 +96,9 @@ public class DataStoreTests
                     Feature3 = "value3",
                     Emails = new List<TestSubModel3>
                     {
-                        new () { Email = _fullName.MakeSlug() + "1@example.com" },
-                        new () { Email = _fullName.MakeSlug() + "2@example.com" },
-                        new () { Email = _fullName.MakeSlug() + "3@example.com" },
+                        new () { Email = _fullName.ToSlugString() + "1@example.com" },
+                        new () { Email = _fullName.ToSlugString() + "2@example.com" },
+                        new () { Email = _fullName.ToSlugString() + "3@example.com" },
                     }
                 }
             },
@@ -110,9 +110,9 @@ public class DataStoreTests
             },
             ObjectDictionary = new Dictionary<string, TestSubModel3>
             {
-                { "Email1", new () { Email = _fullName.MakeSlug() + "1@example.com" } },
-                { "Email2", new () { Email = _fullName.MakeSlug() + "2@example.com" } },
-                { "Email3", new () { Email = _fullName.MakeSlug() + "3@example.com" } }
+                { "Email1", new () { Email = _fullName.ToSlugString() + "1@example.com" } },
+                { "Email2", new () { Email = _fullName.ToSlugString() + "2@example.com" } },
+                { "Email3", new () { Email = _fullName.ToSlugString() + "3@example.com" } }
             }
         };
     }
@@ -121,19 +121,19 @@ public class DataStoreTests
 
     private async Task CloneAsUnique(TestModel dso, int index = 0)
     {
-        await _dso.CloneToAsync(dso);
+        await _dso.CloneObjectToAsync(dso);
         
         _firstName = Faker.Name.First();
         _middleName = Faker.Name.Middle();
         _lastName = Faker.Name.Last();
-        _fullName = Strings.SortableName(_firstName, _middleName, _lastName);
+        _fullName = Strings.SortableNameString(_firstName, _middleName, _lastName);
 
         dso.Id = Guid.NewGuid();
         dso.Index = index.ToString();
         dso.Sort = index;
         dso.FirstName = _firstName;
         dso.LastName = _lastName;
-        dso.Email = _fullName.MakeSlug() + index + "@example.com";
+        dso.Email = _fullName.ToSlugString() + index + "@example.com";
         dso.OptIn = Faker.Boolean.Random();
     }
 
@@ -147,24 +147,24 @@ public class DataStoreTests
         var efficiency = (100 / (totalTime / totalSqlTime)) * 0.01;
 
         var sqlTime =
-            $"   Total SQL Time       : {Strings.FormatTimer(totalSqlTime)}  /  Read: {Strings.FormatTimer(totalReadTime)}  /  Write: {Strings.FormatTimer(totalWriteTime)}";
+            $"   Total SQL Time       : {Strings.FormatTimerString(totalSqlTime)}  /  Read: {Strings.FormatTimerString(totalReadTime)}  /  Write: {Strings.FormatTimerString(totalWriteTime)}";
         var cpuTime =
-            $"   Total CPU Time       : {Strings.FormatTimer(overhead)}";
+            $"   Total CPU Time       : {Strings.FormatTimerString(overhead)}";
         
         if (dataStore.LastTotalWriteTimeMs == 0)
         {
             sqlTime =
-                $"   Total SQL Time       : {Strings.FormatTimer(totalSqlTime)}";
+                $"   Total SQL Time       : {Strings.FormatTimerString(totalSqlTime)}";
             cpuTime =
-                $"   Total CPU Time       : {Strings.FormatTimer(overhead)}";
+                $"   Total CPU Time       : {Strings.FormatTimerString(overhead)}";
         }
         
         _output.Add($"");
         _output.Add(sqlTime);
         _output.Add(cpuTime);
-        _output.Add($"   Total Time           : {Strings.FormatTimer(totalTime)}");
+        _output.Add($"   Total Time           : {Strings.FormatTimerString(totalTime)}");
         _output.Add($"   Efficiency           : {efficiency:P1}");
-        _output.Add($"   Effective Rate       : {Strings.PerformanceString(PerformanceWriteNumber, totalTime, 0)}");
+        _output.Add($"   Effective Rate       : {Strings.Performance(PerformanceWriteNumber, totalTime, 0)}");
     }
     
     [Fact, Order(0)]
@@ -184,7 +184,7 @@ public class DataStoreTests
     [Fact, Order(1)]
     public async Task ObjectHandling()
     {
-        var types = Objects.GetInheritedClasses(typeof(DsObject)).ToList();
+        var types = Objects.GetInheritedTypes(typeof(DsObject)).ToList();
         Assert.True(types.Any());
 
         Assert.Equal("TestBaseModel", DataStore.GenerateTableName(typeof(TestBaseModel)));
@@ -212,33 +212,33 @@ public class DataStoreTests
 
         var clone = new TestModel();
         
-        await _dso.CloneToAsync(clone);
+        await _dso.CloneObjectToAsync(clone);
 
-        Assert.True(clone.SameAs(_dso));
+        Assert.True(clone.SameAsObject(_dso));
 
         #region DsObject Inequality Tests
         
         clone.Dob = DateTimeOffset.UtcNow;
-        Assert.False(clone.SameAs(_dso));
-        await _dso.CloneToAsync(clone);
+        Assert.False(clone.SameAsObject(_dso));
+        await _dso.CloneObjectToAsync(clone);
 
         clone.Dob2 = DateTime.UtcNow;
-        Assert.False(clone.SameAs(_dso));
-        await _dso.CloneToAsync(clone);
+        Assert.False(clone.SameAsObject(_dso));
+        await _dso.CloneObjectToAsync(clone);
         
         clone.Dictionary["Booger"] = "gross";
-        Assert.False(clone.SameAs(_dso));
-        await _dso.CloneToAsync(clone);
+        Assert.False(clone.SameAsObject(_dso));
+        await _dso.CloneObjectToAsync(clone);
 
         clone.Settings.Features.Feature1 = "Bad";
-        Assert.False(clone.SameAs(_dso));
-        await _dso.CloneToAsync(clone);
+        Assert.False(clone.SameAsObject(_dso));
+        await _dso.CloneObjectToAsync(clone);
 
         clone.Settings.Features.Emails[0].Email = "Bad";
-        Assert.False(clone.SameAs(_dso));
-        await _dso.CloneToAsync(clone);
+        Assert.False(clone.SameAsObject(_dso));
+        await _dso.CloneObjectToAsync(clone);
 
-        Assert.True(clone.SameAs(_dso));
+        Assert.True(clone.SameAsObject(_dso));
         
         #endregion
         
@@ -277,10 +277,10 @@ public class DataStoreTests
         
         var cloneDsQuery = new DsQuery();
 
-        await sourceDsQuery.CloneToAsync(cloneDsQuery); 
+        await sourceDsQuery.CloneObjectToAsync(cloneDsQuery); 
         
-        Assert.True(cloneDsQuery.SameAs(sourceDsQuery));
-        Assert.True(cloneDsQuery.WhereClause.SameAs(sourceDsQuery.WhereClause));
+        Assert.True(cloneDsQuery.SameAsObject(sourceDsQuery));
+        Assert.True(cloneDsQuery.WhereClause.SameAsObject(sourceDsQuery.WhereClause));
 
         clone.Serialize(generateJsonDocument: false);
 
@@ -446,25 +446,25 @@ public class DataStoreTests
                     newDso.FirstName = "Michael";
                     newDso.MiddleName = "Q";
                     newDso.LastName = "Tester1";
-                    fullName = Strings.SortableName("Michael", "Q", "Tester1");
-                    newDso.Email = fullName.MakeSlug() + "@example.com";
+                    fullName = Strings.SortableNameString("Michael", "Q", "Tester1");
+                    newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 case WriteNumber - 2:
                     newDso.FirstName = "Gwen";
                     newDso.MiddleName = "E";
                     newDso.LastName = "Tester2";
-                    fullName = Strings.SortableName("Gwen", "E", "Tester1");
-                    newDso.Email = fullName.MakeSlug() + "@example.com";
+                    fullName = Strings.SortableNameString("Gwen", "E", "Tester1");
+                    newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 case WriteNumber - 1:
                     newDso.FirstName = "Chloe";
                     newDso.MiddleName = "I";
                     newDso.LastName = "Tester3";
-                    fullName = Strings.SortableName("Chloe", "I", "Tester1");
-                    newDso.Email = fullName.MakeSlug() + "@example.com";
+                    fullName = Strings.SortableNameString("Chloe", "I", "Tester1");
+                    newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 default:
-                    newDso.Email = _fullName.MakeSlug() + x + "@example.com";
+                    newDso.Email = _fullName.ToSlugString() + x + "@example.com";
                     break;
             }
 
@@ -621,25 +621,25 @@ public class DataStoreTests
                     newDso.FirstName = "Michael";
                     newDso.MiddleName = "Q";
                     newDso.LastName = "Tester1";
-                    fullName = Strings.SortableName("Michael", "Q", "Tester1");
-                    newDso.Email = fullName.MakeSlug() + "@example.com";
+                    fullName = Strings.SortableNameString("Michael", "Q", "Tester1");
+                    newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 case WriteNumber - 2:
                     newDso.FirstName = "Gwen";
                     newDso.MiddleName = "E";
                     newDso.LastName = "Tester2";
-                    fullName = Strings.SortableName("Gwen", "E", "Tester1");
-                    newDso.Email = fullName.MakeSlug() + "@example.com";
+                    fullName = Strings.SortableNameString("Gwen", "E", "Tester1");
+                    newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 case WriteNumber - 1:
                     newDso.FirstName = "Chloe";
                     newDso.MiddleName = "I";
                     newDso.LastName = "Tester3";
-                    fullName = Strings.SortableName("Chloe", "I", "Tester1");
-                    newDso.Email = fullName.MakeSlug() + "@example.com";
+                    fullName = Strings.SortableNameString("Chloe", "I", "Tester1");
+                    newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 default:
-                    newDso.Email = _fullName.MakeSlug() + x + "@example.com";
+                    newDso.Email = _fullName.ToSlugString() + x + "@example.com";
                     break;
             }
 
@@ -702,7 +702,7 @@ public class DataStoreTests
                     DateTime.Now.ToLongTimeString();
 
         _output.Add(title);
-        _output.Add("=".Repeat(title.Length));
+        _output.Add("=".RepeatString(title.Length));
         _output.Add("");
         
         var dsos = new List<TestModel>();
@@ -751,14 +751,14 @@ public class DataStoreTests
 
         for (var x = 0; x < PerformanceWriteNumber; x++) dsos[x].Serialize(dataStore, generateJsonDocument: false);
 
-        _output.Add($"Serialize Baseline      : {Strings.FormatTimer(timer.ElapsedMilliseconds)}");
+        _output.Add($"Serialize Baseline      : {Strings.FormatTimerString(timer.ElapsedMilliseconds)}");
 
         timer.Reset();
         timer.Start();
 
         for (var x = 0; x < PerformanceWriteNumber; x++) await dsos[x].Deserialize(dsos[x].Json, dataStore);
 
-        _output.Add($"Deserialize Baseline    : {Strings.FormatTimer(timer.ElapsedMilliseconds)}");
+        _output.Add($"Deserialize Baseline    : {Strings.FormatTimerString(timer.ElapsedMilliseconds)}");
 
         #region No Lineages
 
@@ -935,7 +935,7 @@ public class DataStoreTests
         totalTimer.Stop();
 
         _output.Add($"");
-        _output.Add($"=> TOTAL TEST TIME: " + Strings.FormatTimer(totalTimer.ElapsedMilliseconds));
+        _output.Add($"=> TOTAL TEST TIME: " + Strings.FormatTimerString(totalTimer.ElapsedMilliseconds));
         
         _output.Add("");
         await File.AppendAllLinesAsync("../../../results.txt", _output);

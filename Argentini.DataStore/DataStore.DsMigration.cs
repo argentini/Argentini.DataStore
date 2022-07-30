@@ -31,7 +31,7 @@ public class DsMigration
                             if (sqlDataReader.HasRows)
                             {
                                 sqlDataReader.Read();
-                                CurrentVersion = sqlDataReader.SafeGetDouble("version");
+                                CurrentVersion = sqlDataReader.SqlSafeGetDouble("version");
                             }
                         }
                     }
@@ -105,7 +105,7 @@ public class DsMigration
     {
         try
         {
-            _ = new SqlExecute(new SqlExecuteSettings
+            _ = new SqlExec(new SqlExecSettings
             {
                 SqlConnectionString = DataStore.Settings.SqlConnectionString,
                 CommandString = $@"
@@ -133,11 +133,11 @@ insert into [dbo].[datastore] ([version]) values ({version})
 DROP INDEX IF EXISTS ix_json_data ON [dbo].[{tableName}]";
         }
 
-        if (indexScript.HasValue())
+        if (indexScript.StringHasValue())
         {
             try
             {
-                _ = new SqlExecute(new SqlExecuteSettings
+                _ = new SqlExec(new SqlExecSettings
                 {
                     SqlConnectionString = DataStore.Settings.SqlConnectionString,
                     CommandString = indexScript
@@ -159,7 +159,7 @@ DROP INDEX IF EXISTS ix_json_data ON [dbo].[{tableName}]";
         var commands = new StringBuilder();
 
         // Drop functions and sprocs
-        Tasks.RunSync(() => DataStore.DeleteDatabaseHelperObjectsAsync(DataStore.Settings.SqlConnectionString));
+        Tasks.RunSynchronous(() => DataStore.DeleteDatabaseHelperObjectsAsync(DataStore.Settings.SqlConnectionString));
 
         // Rename tables as temp tables
         foreach (var tableName in tableNames)
@@ -178,7 +178,7 @@ EXEC sp_rename '{tableName}', '{tableName.Replace("datastore_", "datastoreTEMP_"
         {
             try
             {
-                _ = new SqlExecute(new SqlExecuteSettings
+                _ = new SqlExec(new SqlExecSettings
                 {
                     SqlConnectionString = DataStore.Settings.SqlConnectionString,
                     CommandString = commands.ToString()
@@ -195,16 +195,16 @@ EXEC sp_rename '{tableName}', '{tableName.Replace("datastore_", "datastoreTEMP_"
     public void PreMigrateFrom3_2()
     {
         // Drop functions and sprocs
-        Tasks.RunSync(() => DataStore.DeleteDatabaseHelperObjectsAsync(DataStore.Settings.SqlConnectionString));
+        Tasks.RunSynchronous(() => DataStore.DeleteDatabaseHelperObjectsAsync(DataStore.Settings.SqlConnectionString));
 
-        foreach (var modelType in Objects.GetInheritedClasses(typeof(DsObject)).ToList())
+        foreach (var modelType in Objects.GetInheritedTypes(typeof(DsObject)).ToList())
         {
             var oldTableName = modelType.Name;
             var newTableName = DataStore.GenerateTableName(modelType);
 
             try
             {
-                _ = new SqlExecute(new SqlExecuteSettings
+                _ = new SqlExec(new SqlExecSettings
                 {
                     SqlConnectionString = DataStore.Settings.SqlConnectionString,
                     CommandString = $@"
@@ -251,20 +251,20 @@ EXEC sp_rename 'datastore_{oldTableName}', 'datastore_{newTableName}'
                                     {
                                         while (sqlDataReader.Read())
                                         {
-                                            var json = sqlDataReader.SafeGetString("json_data");
+                                            var json = sqlDataReader.SqlSafeGetString("json_data");
                                             var jsonFragment =
-$@"""Id"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SafeGetGuid("object_id"))},
-""OwnerId"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SafeGetGuid("object_owner_id"))},
-""ParentId"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SafeGetGuid("fk_object_parent_id"))},
-""Lineage"": [{(sqlDataReader.SafeGetString("object_lineage").HasValue() ? "\"" + sqlDataReader.SafeGetString("object_lineage").Replace(",", "\",\"") + "\"" : string.Empty)}],
-""Depth"": {sqlDataReader.SafeGetInt("object_depth")},
-""ObjectType"": {DataStore.JsonQuotedOrNull(sqlDataReader.SafeGetString("object_type"))},
-""CreateDate"": ""{sqlDataReader.SafeGetDateTimeOffset("object_create_date"):o}"",
-""LastDate"": ""{sqlDataReader.SafeGetDateTimeOffset("object_last_date"):o}"",
-""Sort"": {sqlDataReader.SafeGetInt("object_sort")},
-""IsDeleted"": {(sqlDataReader.SafeGetInt("object_is_deleted") == 1 ? "true" : "false")},
+$@"""Id"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SqlSafeGetGuid("object_id"))},
+""OwnerId"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SqlSafeGetGuid("object_owner_id"))},
+""ParentId"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SqlSafeGetGuid("fk_object_parent_id"))},
+""Lineage"": [{(sqlDataReader.SqlSafeGetString("object_lineage").StringHasValue() ? "\"" + sqlDataReader.SqlSafeGetString("object_lineage").Replace(",", "\",\"") + "\"" : string.Empty)}],
+""Depth"": {sqlDataReader.SqlSafeGetInt("object_depth")},
+""ObjectType"": {DataStore.JsonQuotedOrNull(sqlDataReader.SqlSafeGetString("object_type"))},
+""CreateDate"": ""{sqlDataReader.SqlSafeGetDateTimeOffset("object_create_date"):o}"",
+""LastDate"": ""{sqlDataReader.SqlSafeGetDateTimeOffset("object_last_date"):o}"",
+""Sort"": {sqlDataReader.SqlSafeGetInt("object_sort")},
+""IsDeleted"": {(sqlDataReader.SqlSafeGetInt("object_is_deleted") == 1 ? "true" : "false")},
 ";
-                                            json = json.TrimStart("{")?.TrimStart();
+                                            json = json.TrimStringStart("{")?.TrimStart();
                                             json = "{" + jsonFragment + json;
 
                                             var jsonDocument =
@@ -274,7 +274,7 @@ $@"""Id"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SafeGetGuid("object_id"
 
                                             try
                                             {
-                                                _ = new SqlExecute(new SqlExecuteSettings
+                                                _ = new SqlExec(new SqlExecSettings
                                                 {
                                                     SqlConnectionString = DataStore.Settings.SqlConnectionString,
                                                     CommandString = $"INSERT INTO [dbo].[{tableName}] ([json_data]) VALUES ({DataStore.QuotedOrNull(json.Replace("'", "''"))})" 
@@ -305,7 +305,7 @@ $@"""Id"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SafeGetGuid("object_id"
 
                 try
                 {
-                    _ = new SqlExecute(new SqlExecuteSettings
+                    _ = new SqlExec(new SqlExecSettings
                     {
                         SqlConnectionString = DataStore.Settings.SqlConnectionString,
                         CommandString = $"DROP TABLE [dbo].[{tempTableName}]" 

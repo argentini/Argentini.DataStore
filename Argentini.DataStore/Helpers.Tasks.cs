@@ -10,7 +10,7 @@ public static class Tasks
 	/// <returns></returns>
 	/// <exception cref="AggregateException"></exception>
 	// ReSharper disable once UnusedMember.Global
-	public static void WaitForTask(Task task, int sleepMs = 25)
+	public static void WaitForTaskToComplete(Task task, int sleepMs = 25)
 	{
 		while (task.IsCompleted == false && task.IsCanceled == false && task.IsFaulted == false)
 		{
@@ -28,7 +28,7 @@ public static class Tasks
 	/// <returns></returns>
 	/// <exception cref="AggregateException"></exception>
 	// ReSharper disable once UnusedMember.Global
-	public static T WaitForTask<T>(Task<T> task, int sleepMs = 25)
+	public static T WaitForTaskToComplete<T>(Task<T> task, int sleepMs = 25)
 	{
 		while (task.IsCompleted == false && task.IsCanceled == false && task.IsFaulted == false)
 		{
@@ -48,10 +48,10 @@ public static class Tasks
 	
 	/// <summary>
 	/// Executes an async Task method which has a void return value synchronously
-	/// USAGE: Async.RunSync(() => AsyncMethod());
+	/// USAGE: Async.RunSynchronous(() => AsyncMethod());
 	/// </summary>
 	/// <param name="task">Task method to execute</param>
-	public static void RunSync(Func<Task> task)
+	public static void RunSynchronous(Func<Task> task)
 		=> TaskFactory
 			.StartNew(task)
 			.Unwrap()
@@ -61,13 +61,13 @@ public static class Tasks
 	/// <summary>
 	/// <![CDATA[
 	/// Executes an async Task<T> method which has a T return type synchronously
-	/// USAGE: T result = Async.RunSync<T>(() => AsyncMethod<T>());
+	/// USAGE: T result = Async.RunSynchronous<T>(() => AsyncMethod<T>());
 	/// ]]>
 	/// </summary>
 	/// <typeparam name="TResult">Return Type</typeparam>
 	/// <param name="task"><![CDATA[ Task<T> method to execute ]]></param>
 	/// <returns></returns>
-	public static TResult RunSync<TResult>(Func<Task<TResult>> task)
+	public static TResult RunSynchronous<TResult>(Func<Task<TResult>> task)
 		=> TaskFactory
 			.StartNew(task)
 			.Unwrap()

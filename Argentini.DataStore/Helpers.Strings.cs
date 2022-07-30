@@ -7,18 +7,18 @@ namespace Argentini.DataStore;
 public static class Strings
 {
 	/// <summary>
-	/// Repeat the first character a given string up to a specified number.
+	/// RepeatString the first character a given string up to a specified number.
 	/// </summary>
 	/// <param name="text">String with first character to repeat</param>
 	/// <param name="width">Width in characters of the final string</param>
 	/// <returns>Text repeated up to the given width</returns>
-	public static string Repeat(this string text, int width)
+	public static string RepeatString(this string text, int width)
 	{
 		var result = string.Empty;
 
 		if (width > 0)
 		{
-			if (text.HasValue())
+			if (text.StringHasValue())
 			{
 				for (int x = 0; x < width; x++)
 				{
@@ -36,7 +36,7 @@ public static class Strings
 	/// <param name="text">String to evaluate</param>
 	/// <returns></returns>
 	// ReSharper disable once MemberCanBePrivate.Global
-	public static string RemoveDiacritics(this string text)
+	public static string RemoveStringDiacritics(this string text)
 	{
 		if (string.IsNullOrWhiteSpace(text))
 			return text;
@@ -54,17 +54,17 @@ public static class Strings
 	/// <param name="input">String to evaluate</param>
 	/// <param name="allow">String of characters to allow</param>
 	/// <returns>URL-friendly slug</returns>
-	public static string MakeSlug(this string input, string allow = "")
+	public static string ToSlugString(this string input, string allow = "")
 	{
 		var result = string.Empty;
 
-		if (!input.HasValue()) return (result);
+		if (!input.StringHasValue()) return (result);
 
 		var expression = "([^a-zA-Z0-9])";
 
-		if (allow.HasValue()) expression = "([^a-zA-Z0-9" + Regex.Escape(allow) + "])";
+		if (allow.StringHasValue()) expression = "([^a-zA-Z0-9" + Regex.Escape(allow) + "])";
 
-		result = input.Trim().ToLower().RemoveDiacritics();
+		result = input.Trim().ToLower().RemoveStringDiacritics();
 		result = result.Replace(" & ", " and ");
 		result = result.Replace("'" , string.Empty);
 
@@ -89,13 +89,13 @@ public static class Strings
 	/// <param name="middleName">Middle name</param>
 	/// <param name="lastName">Last name</param>
 	/// <returns>Sortable name</returns>
-	public static string SortableName(string firstName, string middleName, string lastName)
+	public static string SortableNameString(string firstName, string middleName, string lastName)
 	{
 		var result = string.Empty;
 
-		if (firstName.HasValue() || middleName.HasValue() || lastName.HasValue())
+		if (firstName.StringHasValue() || middleName.StringHasValue() || lastName.StringHasValue())
 		{
-			result = ((lastName.HasValue() ? lastName.Trim() + "," : string.Empty) + (firstName.HasValue() ? " " + firstName.Trim() : string.Empty) + (middleName.HasValue() ? " " + middleName.Trim() : string.Empty)).Trim(new char[] { ' ', ',' });
+			result = ((lastName.StringHasValue() ? lastName.Trim() + "," : string.Empty) + (firstName.StringHasValue() ? " " + firstName.Trim() : string.Empty) + (middleName.StringHasValue() ? " " + middleName.Trim() : string.Empty)).Trim(new char[] { ' ', ',' });
 		}
 
 		return result;
@@ -106,7 +106,7 @@ public static class Strings
 	/// </summary>
 	/// <param name="value">String to evaluate</param>
 	/// <returns>Byte array</returns>
-	public static byte[] ToByteArray(this string value)
+	public static IEnumerable<byte> StringToByteArray(this string value)
 	{
 		var encoding = new UTF8Encoding();
 
@@ -117,7 +117,7 @@ public static class Strings
 	/// Determines if a string has a value (is not null and not empty).
 	/// </summary>
 	/// <param name="value">String to evaluate</param>
-	public static bool HasValue(this string? value)
+	public static bool StringHasValue(this string? value)
 	{
 		value = value?.Trim();
 
@@ -128,7 +128,7 @@ public static class Strings
 	/// Determines if a string is empty or null.
 	/// </summary>
 	/// <param name="value">String to evaluate</param>
-	public static bool IsEmpty(this string? value)
+	public static bool StringIsEmpty(this string? value)
 	{
 		return string.IsNullOrEmpty(value);
 	}
@@ -138,11 +138,11 @@ public static class Strings
 	/// </summary>
 	/// <param name="value"></param>
 	/// <param name="linebreak">Line break to use (default: "\n")</param>
-	public static string NormalizeLinebreaks(this string value, string linebreak = "\n")
+	public static string NormalizeStringLinebreaks(this string value, string linebreak = "\n")
 	{
 		var result = value;
 
-		if (!value.HasValue()) return result;
+		if (!value.StringHasValue()) return result;
         
 		if (value.Contains("\r\n") && linebreak != "\r\n")
 		{
@@ -168,11 +168,11 @@ public static class Strings
 	/// <param name="value">String to trim</param>
 	/// <param name="count">Number of characters to remove</param>
 	/// <returns>Trimmed string</returns>
-	public static string? TrimStart(this string? value, int count)
+	public static string? TrimStringStart(this string? value, int count)
 	{
 		if (value != null && value.Length >= count)
 		{
-			value = value.Right(value.Length - count);
+			value = value.StringRight(value.Length - count);
 		}
 
 		return value;
@@ -184,13 +184,13 @@ public static class Strings
 	/// <param name="value">String to trim</param>
 	/// <param name="remove">String to remove</param>
 	/// <returns>Trimmed string</returns>
-	public static string? TrimStart(this string? value, string remove)
+	public static string? TrimStringStart(this string? value, string remove)
 	{
 		if (value != null && value.Length < remove.Length) return value;
 		
 		if (value != null && value.StartsWith(remove))
 		{
-			value = value.Right(value.Length - remove.Length);
+			value = value.StringRight(value.Length - remove.Length);
 		}
 
 		return value;
@@ -202,11 +202,11 @@ public static class Strings
 	/// <param name="value">String to trim</param>
 	/// <param name="count">Number of characters to remove</param>
 	/// <returns>Trimmed string</returns>
-	public static string? TrimEnd(this string? value, int count)
+	public static string? TrimStringEnd(this string? value, int count)
 	{
 		if (value != null && value.Length >= count)
 		{
-			value = value.Left(value.Length - count);
+			value = value.StringLeft(value.Length - count);
 		}
 
 		return value;
@@ -218,13 +218,13 @@ public static class Strings
 	/// <param name="value">String to trim</param>
 	/// <param name="remove">String to remove</param>
 	/// <returns>Trimmed string</returns>
-	public static string? TrimEnd(this string? value, string remove)
+	public static string? TrimStringEnd(this string? value, string remove)
 	{
 		if (value == null || value.Length < remove.Length) return value;
 		
 		if (value.EndsWith(remove))
 		{
-			value = value.Left(value.Length - remove.Length);
+			value = value.StringLeft(value.Length - remove.Length);
 		}
 
 		return value;
@@ -235,14 +235,14 @@ public static class Strings
 	/// </summary>
 	/// <param name="value">String value</param>
 	/// <param name="length">Number of characters</param>
-	/// <returns>Left portion of a string</returns>
-	public static string? Left(this string? value, int length)
+	/// <returns>StringLeft portion of a string</returns>
+	public static string? StringLeft(this string? value, int length)
 	{
 		var result = value;
 
 		if (value != null)
 		{
-			if (value.IsEmpty()) return result;
+			if (value.StringIsEmpty()) return result;
 
 			if (value.Length >= length)
 			{
@@ -258,14 +258,14 @@ public static class Strings
 	/// </summary>
 	/// <param name="value">String value</param>
 	/// <param name="marker">Delimiter to denote the cut off point</param>
-	/// <returns>Left portion of a string</returns>
-	public static string? Left(this string? value, string marker)
+	/// <returns>StringLeft portion of a string</returns>
+	public static string? StringLeft(this string? value, string marker)
 	{
 		var result = value;
 
 		if (value != null)
 		{
-			if (value.IsEmpty() || marker.IsEmpty()) return result;
+			if (value.StringIsEmpty() || marker.StringIsEmpty()) return result;
 
 			if (value.Length < marker.Length) return result;
 
@@ -283,12 +283,12 @@ public static class Strings
 	/// </summary>
 	/// <param name="value">String value</param>
 	/// <param name="marker">Delimiter to denote the cut off point</param>
-	/// <returns>Left portion of a string</returns>
-	public static string? Left(this string? value, char marker)
+	/// <returns>StringLeft portion of a string</returns>
+	public static string? StringLeft(this string? value, char marker)
 	{
 		var result = value;
 
-		if (value != null && value.HasValue())
+		if (value != null && value.StringHasValue())
 		{
 			if (value.Length < 1) return result;
 
@@ -306,14 +306,14 @@ public static class Strings
 	/// </summary>
 	/// <param name="value">String value</param>
 	/// <param name="length">Number of characters</param>
-	/// <returns>Right portion of a string</returns>
-	public static string? Right(this string? value, int length)
+	/// <returns>StringRight portion of a string</returns>
+	public static string? StringRight(this string? value, int length)
 	{
 		var result = value;
 
 		if (value != null)
 		{
-			if (value.IsEmpty()) return result;
+			if (value.StringIsEmpty()) return result;
 
 			if (value.Length >= length)
 			{
@@ -329,14 +329,14 @@ public static class Strings
 	/// </summary>
 	/// <param name="value">String value</param>
 	/// <param name="marker">Delimiter to denote the cut off point</param>
-	/// <returns>Right portion of a string</returns>
-	public static string? Right(this string? value, string marker)
+	/// <returns>StringRight portion of a string</returns>
+	public static string? StringRight(this string? value, string marker)
 	{
 		var result = value;
 
 		if (value != null)
 		{
-			if (value.IsEmpty() || marker.IsEmpty()) return result;
+			if (value.StringIsEmpty() || marker.StringIsEmpty()) return result;
 
 			if (value.Length < marker.Length) return result;
 
@@ -354,12 +354,12 @@ public static class Strings
 	/// </summary>
 	/// <param name="value">String value</param>
 	/// <param name="marker">Delimiter to denote the cut off point</param>
-	/// <returns>Right portion of a string</returns>
-	public static string? Right(this string? value, char marker)
+	/// <returns>StringRight portion of a string</returns>
+	public static string? StringRight(this string? value, char marker)
 	{
 		var result = value;
 
-		if (value != null && value.HasValue())
+		if (value != null && value.StringHasValue())
 		{
 			if (value.Length < 1) return result;
 
@@ -373,17 +373,17 @@ public static class Strings
 	}
 	
 	/// <summary>
-	/// Indent text with given whitespace based on line breaks
+	/// StringIndent text with given whitespace based on line breaks
 	/// </summary>
 	/// <param name="block"></param>
 	/// <param name="whitespace"></param>
 	/// <param name="includeLeading"></param>
 	/// <returns></returns>
-	public static string Indent(this string block, string whitespace, bool includeLeading = false)
+	public static string StringIndent(this string block, string whitespace, bool includeLeading = false)
 	{
-		var result = block.Trim().NormalizeLinebreaks("\r\n");
+		var result = block.Trim().NormalizeStringLinebreaks("\r\n");
         
-		if (result.HasValue())
+		if (result.StringHasValue())
 		{
 			result = result.Replace("\r\n", "\r\n" + whitespace);
 		}
@@ -399,7 +399,7 @@ public static class Strings
 	/// </summary>
 	/// <param name="value">String to sanitize</param>
 	/// <returns>A sanitized string.</returns>
-	public static string SqlSanitize(this string value)
+	public static string SqlSanitizeString(this string value)
 	{
 		return value.Replace("'", "''");
 	}
@@ -412,7 +412,7 @@ public static class Strings
 	/// </summary>
 	/// <param name="delimiter">Text to separate time elements; defaults to " : "</param>
 	/// <returns>Formatted timespan</returns>
-	public static string FormatTimer(double msecs)
+	public static string FormatTimerString(double msecs)
 	{
 		var timespan = TimeSpan.FromMilliseconds(msecs);
 		return $"{(timespan.Days > 0 ? timespan.Days.ToString("#,##0") + " days " : "")}{timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}.{timespan.Milliseconds:#000}";
@@ -426,9 +426,9 @@ public static class Strings
 	/// <param name="msecs">Number milliseconds to output (overrides ElapsedMs)</param>
 	/// <param name="decimalPlaces">Number of decimal places to show</param>
 	/// <returns></returns>
-	public static string PerformanceTimeString(int numberProcessed, double msecs, int decimalPlaces = 1)
+	public static string PerformanceTime(int numberProcessed, double msecs, int decimalPlaces = 1)
 	{
-		return $"{FormatTimer(msecs)} ({PerformanceString(numberProcessed, msecs, decimalPlaces)})";
+		return $"{FormatTimerString(msecs)} ({Performance(numberProcessed, msecs, decimalPlaces)})";
 	}
 
 	/// <summary>
@@ -439,7 +439,7 @@ public static class Strings
 	/// <param name="msecs">Number milliseconds to output (overrides ElapsedMs)</param>
 	/// <param name="decimalPlaces">Number of decimal places to show</param>
 	/// <returns></returns>
-	public static string PerformanceString(int numberProcessed, double msecs, int decimalPlaces = 1)
+	public static string Performance(int numberProcessed, double msecs, int decimalPlaces = 1)
 	{
 		var secs = msecs / 1000;
 

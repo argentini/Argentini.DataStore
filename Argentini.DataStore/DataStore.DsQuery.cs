@@ -44,7 +44,7 @@ public class DsQuery
     {
         if (dsQuery != null)
         {
-            dsQuery.CloneTo(this);
+            dsQuery.CloneObjectTo(this);
         }
 
         else
@@ -57,7 +57,7 @@ public class DsQuery
 
     #region Properties
 
-    public bool HasQuery => Query.HasValue();
+    public bool HasQuery => Query.SbHasValue();
     public bool ObjectIsDeleted { get; set; }
     public string LastPropertyName { get; set; } = string.Empty;
     public string LastFieldName { get; set; } = string.Empty;
@@ -116,7 +116,7 @@ public class DsQuery
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery AND()
     {
-        if (Query.EndsWith(" AND ") == false && Query.EndsWith(" OR ") == false)
+        if (Query.SbEndsWith(" AND ") == false && Query.SbEndsWith(" OR ") == false)
         {
             Query.Append(" AND ");
         }
@@ -130,7 +130,7 @@ public class DsQuery
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery OR()
     {
-        if (Query.EndsWith(" AND ") == false && Query.EndsWith(" OR ") == false)
+        if (Query.SbEndsWith(" AND ") == false && Query.SbEndsWith(" OR ") == false)
         {
             Query.Append(" OR ");
         }
@@ -144,7 +144,7 @@ public class DsQuery
     /// <returns>Current DsQuery object (for chaining)</returns>
     public DsQuery NOT()
     {
-        if (Query.EndsWith(" ") == false) Query.Append(' ');
+        if (Query.SbEndsWith(" ") == false) Query.Append(' ');
 
         Query.Append("NOT ");
 

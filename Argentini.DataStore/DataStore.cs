@@ -222,7 +222,7 @@ public class DataStore
         var tableName = setting.TableName;
         var r = new Regex(@"^[A-Za-z_0-9]+$");
 
-        if (tableName.IsEmpty())
+        if (tableName.StringIsEmpty())
         {
             throw new Exception("DataStore() => Custom table name cannot be empty");
         }
@@ -245,7 +245,7 @@ public class DataStore
 
         Settings = settings;
 
-        foreach (var modelType in Objects.GetInheritedClasses(typeof(DsObject)).ToList())
+        foreach (var modelType in Objects.GetInheritedTypes(typeof(DsObject)).ToList())
         {
             var noTable = false;
             
@@ -303,7 +303,7 @@ public class DataStore
 
             #endregion
 
-            if (Settings.SqlConnectionString.HasValue())
+            if (Settings.SqlConnectionString.StringHasValue())
             {
                 #region SQL Server Version Check
 
@@ -545,11 +545,11 @@ INSERT INTO [dbo].[datastore] ([version]) VALUES ({(freshBuild ? Version : "2.0"
 ";
                 }
 
-                if (create.HasValue())
+                if (create.StringHasValue())
                 {
                     try
                     {
-                        _ = new SqlExecute(new SqlExecuteSettings
+                        _ = new SqlExec(new SqlExecSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -558,7 +558,7 @@ INSERT INTO [dbo].[datastore] ([version]) VALUES ({(freshBuild ? Version : "2.0"
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExecute() => {e.Message}");
+                        throw new Exception($"SqlExec() => {e.Message}");
                     }
                 }
 
@@ -647,7 +647,7 @@ WHERE
                                         {
                                             while (sqlDataReader.Read())
                                             {
-                                                var ccName = sqlDataReader.SafeGetString("COLUMN_NAME");
+                                                var ccName = sqlDataReader.SqlSafeGetString("COLUMN_NAME");
                                                 var cc = IndexedColumns.FirstOrDefault(p => p.ModelType == modelType && p.ColumnName == ccName);
 
                                                 if (cc == null)
@@ -660,7 +660,7 @@ ALTER TABLE [dbo].[datastore_{GenerateTableName(modelType)}] DROP COLUMN [{ccNam
 
                                                 else
                                                 {
-                                                    var existingCC = sqlDataReader.SafeGetString("COMPUTED_VALUE");
+                                                    var existingCC = sqlDataReader.SqlSafeGetString("COMPUTED_VALUE");
 
                                                     if (existingCC.Contains(cc.Crc))
                                                     {
@@ -702,11 +702,11 @@ CREATE{(cc.IsUnique ? " UNIQUE" : string.Empty)}{(cc.IsClustered ? " CLUSTERED" 
 ");
                 }
 
-                if (changeScript.HasValue())
+                if (changeScript.SbHasValue())
                 {
                     try
                     {
-                        _ = new SqlExecute(new SqlExecuteSettings
+                        _ = new SqlExec(new SqlExecSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = changeScript.ToString()
@@ -715,7 +715,7 @@ CREATE{(cc.IsUnique ? " UNIQUE" : string.Empty)}{(cc.IsClustered ? " CLUSTERED" 
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExecute() => {e.Message}");
+                        throw new Exception($"SqlExec() => {e.Message}");
                     }
                 }
                 
@@ -756,7 +756,7 @@ END
 ";
                     try
                     {
-                        _ = new SqlExecute(new SqlExecuteSettings
+                        _ = new SqlExec(new SqlExecSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -765,7 +765,7 @@ END
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExecute() => Failed to create [dbo].[udf_datastore_{tableName}_GetDepth]; {e.Message}");
+                        throw new Exception($"SqlExec() => Failed to create [dbo].[udf_datastore_{tableName}_GetDepth]; {e.Message}");
                     }
 
                     create = $@"
@@ -802,7 +802,7 @@ END
 
                     try
                     {
-                        _ = new SqlExecute(new SqlExecuteSettings
+                        _ = new SqlExec(new SqlExecSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -811,7 +811,7 @@ END
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExecute() => Failed to create [dbo].[udf_datastore_{tableName}_GetLineage]; {e.Message}");
+                        throw new Exception($"SqlExec() => Failed to create [dbo].[udf_datastore_{tableName}_GetLineage]; {e.Message}");
                     }
 
                     create = $@"
@@ -851,7 +851,7 @@ END
 
                     try
                     {
-                        _ = new SqlExecute(new SqlExecuteSettings
+                        _ = new SqlExec(new SqlExecSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -860,7 +860,7 @@ END
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExecute() => Failed to create [dbo].[udf_datastore_{tableName}_HasAncestor]; {e.Message}");
+                        throw new Exception($"SqlExec() => Failed to create [dbo].[udf_datastore_{tableName}_HasAncestor]; {e.Message}");
                     }
                 }
 
@@ -989,7 +989,7 @@ END
 
                     try
                     {
-                        _ = new SqlExecute(new SqlExecuteSettings
+                        _ = new SqlExec(new SqlExecSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -998,7 +998,7 @@ END
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExecute() => Failed to create [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages]; {e.Message}");
+                        throw new Exception($"SqlExec() => Failed to create [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages]; {e.Message}");
                     }
                 }
 
@@ -1155,7 +1155,7 @@ END
 
             try
             {
-                _ = new SqlExecute(new SqlExecuteSettings
+                _ = new SqlExec(new SqlExecSettings
                 {
                     SqlConnectionString = Settings.SqlConnectionString,
                     CommandString = writeQuery.ToString()
@@ -1220,7 +1220,7 @@ END
 
                     try
                     {
-                        _ = new SqlExecute(new SqlExecuteSettings
+                        _ = new SqlExec(new SqlExecSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = lineageQuery.ToString()
@@ -1275,7 +1275,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
         
                                     if (dsoRef != null)
                                     {
-                                        await newDso.CloneToAsync(dsoRef);
+                                        await newDso.CloneObjectToAsync(dsoRef);
                                     }
 
                                     LastTotalReadTimeMs -= readOverheadTimer.ElapsedMilliseconds;
@@ -1334,7 +1334,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     /// <param name="maxDegreeOfParallelism">Number of concurrent save requests</param>
     public void SaveMany<T>(IEnumerable<T> dsos, int maxDegreeOfParallelism = -1)
     {
-        Tasks.WaitForTask(SaveManyAsync(dsos), maxDegreeOfParallelism);
+        Tasks.WaitForTaskToComplete(SaveManyAsync(dsos), maxDegreeOfParallelism);
     }
     
     /// <summary>
@@ -1370,7 +1370,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     /// <param name="maxDegreeOfParallelism">Number of concurrent save requests</param>
     public void Save(DsObject dso, int maxDegreeOfParallelism = -1)
     {
-        Tasks.WaitForTask(SaveManyAsync(dso.GetType(), new List<DsObject> { dso }), maxDegreeOfParallelism);
+        Tasks.WaitForTaskToComplete(SaveManyAsync(dso.GetType(), new List<DsObject> { dso }), maxDegreeOfParallelism);
     }
     
     #endregion
@@ -1392,7 +1392,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     // ReSharper disable once UnusedMember.Global
     public T? GetSingleById<T>(Guid? id) where T : class
     {
-        return Tasks.WaitForTask(GetSingleByIdAsync(typeof(T), id)) as T;
+        return Tasks.WaitForTaskToComplete(GetSingleByIdAsync(typeof(T), id)) as T;
     }
 
     /// <summary>
@@ -1410,7 +1410,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     // ReSharper disable once UnusedMember.Global
     public DsObject? GetSingleById(Type type, Guid? id)
     {
-        return Tasks.WaitForTask(GetSingleByIdAsync(type, id));
+        return Tasks.WaitForTaskToComplete(GetSingleByIdAsync(type, id));
     }
     
     /// <summary>
@@ -1463,7 +1463,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     // ReSharper disable once UnusedMember.Global
     public T? GetSingle<T>(DsQuery? query) where T : class
    {
-        return Tasks.WaitForTask(GetSingleAsync(typeof(T), query)) as T;
+        return Tasks.WaitForTaskToComplete(GetSingleAsync(typeof(T), query)) as T;
     }
     
     /// <summary>
@@ -1558,10 +1558,10 @@ SET NOCOUNT ON
 ;WITH pg AS
 (
     SELECT [Id], ROW_NUMBER() OVER(ORDER BY {orderBy.OrderByClause}) AS [rn]
-    FROM [dbo].[datastore_{tableName}] {orderByCrossApplyClause.Indent("    ")}
+    FROM [dbo].[datastore_{tableName}] {orderByCrossApplyClause.StringIndent("    ")}
     WHERE [Id] IN (
         SELECT DISTINCT [Id]
-        FROM [dbo].[datastore_{tableName}] {queryCrossApplyClause.Indent("        ")}
+        FROM [dbo].[datastore_{tableName}] {queryCrossApplyClause.StringIndent("        ")}
         WHERE ({query.WhereClause})
     )
 ), 
@@ -1670,7 +1670,7 @@ INNER JOIN pg2 ON pg2.[Id] = c.[Id]
     // ReSharper disable once UnusedMember.Global
     public List<T> GetMany<T>(int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null) where T : class
     {
-        return Tasks.WaitForTask(GetManyAsync<T>(page, perPage, query, orderBy));
+        return Tasks.WaitForTaskToComplete(GetManyAsync<T>(page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -1822,7 +1822,7 @@ FROM
                                 if (sqlDataReader.HasRows)
                                 {
                                     await sqlDataReader.ReadAsync();
-                                    count = await sqlDataReader.SafeGetIntAsync("count");
+                                    count = await sqlDataReader.SqlSafeGetIntAsync("count");
                                 }
                             }
                         }
@@ -1860,7 +1860,7 @@ FROM
     // ReSharper disable once UnusedMember.Global
     public long GetCount<T>()
     {
-        return Tasks.WaitForTask(GetCountAsync<T>());
+        return Tasks.WaitForTaskToComplete(GetCountAsync<T>());
     }
     
     /// <summary>
@@ -1871,7 +1871,7 @@ FROM
     // ReSharper disable once UnusedMember.Global
     public long GetCount<T>(DsQuery? query)
     {
-        return Tasks.WaitForTask(GetCountAsync<T>(query));
+        return Tasks.WaitForTaskToComplete(GetCountAsync<T>(query));
     }
 
     /// <summary>
@@ -2089,7 +2089,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetDescendants<T>(Guid? ancestorId, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null, int depth = -1)
     {
-        return Tasks.WaitForTask(GetDescendantsAsync<T>(ancestorId, page, perPage, query, orderBy, depth));
+        return Tasks.WaitForTaskToComplete(GetDescendantsAsync<T>(ancestorId, page, perPage, query, orderBy, depth));
     }        
 
     /// <summary>
@@ -2165,7 +2165,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetDescendants<T>(DsObject? dso, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null, int depth = -1)
     {
-        return Tasks.WaitForTask(GetDescendantsAsync<T>(dso, page, perPage, query, orderBy, depth));
+        return Tasks.WaitForTaskToComplete(GetDescendantsAsync<T>(dso, page, perPage, query, orderBy, depth));
     }
     
     /// <summary>
@@ -2294,7 +2294,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetChildren<T>(Guid? parentId, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null)
     {
-        return Tasks.WaitForTask(GetChildrenAsync<T>(parentId, page, perPage, query, orderBy));
+        return Tasks.WaitForTaskToComplete(GetChildrenAsync<T>(parentId, page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -2368,7 +2368,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetChildren<T>(DsObject? dso, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null)
     {
-        return Tasks.WaitForTask(GetChildrenAsync<T>(dso, page, perPage, query, orderBy));
+        return Tasks.WaitForTaskToComplete(GetChildrenAsync<T>(dso, page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -2504,7 +2504,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetAncestors<T>(Guid? dsoId, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null)
     {
-        return Tasks.WaitForTask(GetAncestorsAsync<T>(dsoId, page, perPage, query, orderBy));
+        return Tasks.WaitForTaskToComplete(GetAncestorsAsync<T>(dsoId, page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -2578,7 +2578,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetAncestors<T>(DsObject? dso, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null)
     {
-        return Tasks.WaitForTask(GetAncestorsAsync<T>(dso, page, perPage, query, orderBy));
+        return Tasks.WaitForTaskToComplete(GetAncestorsAsync<T>(dso, page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -2654,7 +2654,7 @@ END
         {
             try
             {
-                _ = new SqlExecute(new SqlExecuteSettings
+                _ = new SqlExec(new SqlExecSettings
                 {
                     SqlConnectionString = Settings.SqlConnectionString,
                     CommandString = $"EXEC [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages] @parent_object_id = {QuotedGuidOrNull(parentId)}"
@@ -2671,7 +2671,7 @@ END
         {
             try
             {
-                _ = new SqlExecute(new SqlExecuteSettings
+                _ = new SqlExec(new SqlExecSettings
                 {
                     SqlConnectionString = Settings.SqlConnectionString,
                     CommandString = $"EXEC [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages] @parent_object_id = NULL"
@@ -2787,7 +2787,7 @@ DECLARE @matches TABLE ([Id] uniqueidentifier)
 INSERT INTO @matches
 SELECT o.[Id]
 FROM [dbo].[datastore_{tableName}] o {queryCrossApplyClause}";
-            if (query.WhereClause.HasValue())
+            if (query.WhereClause.StringHasValue())
             {
                 select += $@"                    
 WHERE ({query.WhereClause})";
@@ -2894,7 +2894,7 @@ END
     /// <param name="dso">DsObject object</param>
     public void Delete(DsObject? dso)
     {
-        Tasks.WaitForTask(DeleteAsync(dso));
+        Tasks.WaitForTaskToComplete(DeleteAsync(dso));
     }
 
     /// <summary>
@@ -2938,7 +2938,7 @@ END
     // ReSharper disable once MemberCanBePrivate.Global
     public void Delete<T>(Guid? objectId) where T : class
     {
-        Tasks.WaitForTask(DeleteAsync<T>(objectId));
+        Tasks.WaitForTaskToComplete(DeleteAsync<T>(objectId));
     }
 
     /// <summary>
@@ -3000,7 +3000,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> Delete<T>(DsQuery? query)
     {
-        return Tasks.WaitForTask(DeleteAsync<T>(query));
+        return Tasks.WaitForTaskToComplete(DeleteAsync<T>(query));
     }
 
     /// <summary>
@@ -3084,7 +3084,7 @@ INSERT INTO @matches
 SELECT o.[Id]
 FROM [dbo].[datastore_{tableName}] o {queryCrossApplyClause}";
 
-            if (query.WhereClause.HasValue())
+            if (query.WhereClause.StringHasValue())
             {
                 select += $@"                    
 WHERE ({query.WhereClause})";
@@ -3193,7 +3193,7 @@ END
     /// <param name="dso">DsObject object</param>
     public void Undelete(DsObject? dso)
     {
-        Tasks.WaitForTask(UndeleteAsync(dso));
+        Tasks.WaitForTaskToComplete(UndeleteAsync(dso));
     }
 
     /// <summary>
@@ -3237,7 +3237,7 @@ END
     // ReSharper disable once MemberCanBePrivate.Global
     public void Undelete<T>(Guid? objectId) where T : class
     {
-        Tasks.WaitForTask(UndeleteAsync<T>(objectId));
+        Tasks.WaitForTaskToComplete(UndeleteAsync<T>(objectId));
     }
 
     /// <summary>
@@ -3301,7 +3301,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> Undelete<T>(DsQuery? query)
     {
-        return Tasks.WaitForTask(UndeleteAsync<T>(query));
+        return Tasks.WaitForTaskToComplete(UndeleteAsync<T>(query));
     }
 
     /// <summary>
@@ -3360,7 +3360,7 @@ END
             
             if (newDso is not DsObject tmpDso) throw new Exception("DataStore.ReadObjectData() => Cannot create DsObject");
 
-            var json = await sqlDataReader.SafeGetStringAsync("json_data");
+            var json = await sqlDataReader.SqlSafeGetStringAsync("json_data");
 
             timer.Reset();
             timer.Start();
@@ -3370,7 +3370,7 @@ END
             LastTotalReadTimeMs -= timer.ElapsedMilliseconds;
             
             tmpDso.IsNew = false;
-            tmpDso.RowNum = await sqlDataReader.SafeGetLongAsync("rn");
+            tmpDso.RowNum = await sqlDataReader.SqlSafeGetLongAsync("rn");
 
             return tmpDso;
         }
@@ -3404,7 +3404,7 @@ END
     {
         var result = false;
 
-        if (tableName.IsEmpty()) throw new Exception("DataStore.TableUsesLineageFeatures() => Table name cannot be empty");
+        if (tableName.StringIsEmpty()) throw new Exception("DataStore.TableUsesLineageFeatures() => Table name cannot be empty");
         
         if (TableDefinitions.Any() == false) return false;
 
@@ -3446,7 +3446,7 @@ END
                             {
                                 while (sqlDataReader.Read())
                                 {
-                                    result.Add(sqlDataReader.SafeGetString("name"));
+                                    result.Add(sqlDataReader.SqlSafeGetString("name"));
                                 }
                             }
                         }
@@ -3520,7 +3520,7 @@ END
                             {
                                 while (sqlDataReader.Read())
                                 {
-                                    result.Add(sqlDataReader.SafeGetString("name"));
+                                    result.Add(sqlDataReader.SqlSafeGetString("name"));
                                 }
                             }
                         }
@@ -3574,7 +3574,7 @@ END
                             {
                                 while (sqlDataReader.Read())
                                 {
-                                    result.Add(sqlDataReader.SafeGetString("name"));
+                                    result.Add(sqlDataReader.SqlSafeGetString("name"));
                                 }
                             }
                         }
@@ -3606,7 +3606,7 @@ END
     /// <param name="settings"></param>
     public void DeleteUnusedTables(DataStoreSettings settings)
     {
-        Tasks.WaitForTask(DeleteUnusedTablesAsync(settings));
+        Tasks.WaitForTaskToComplete(DeleteUnusedTablesAsync(settings));
     }
     
     /// <summary>
@@ -3619,9 +3619,9 @@ END
 
         foreach (var tableName in tables)
         {
-            if (tableName != null && TableDefinitions.FirstOrDefault(t => t.TableName.Equals(tableName.TrimStart("datastore_") ?? string.Empty, StringComparison.InvariantCultureIgnoreCase)) == null)
+            if (tableName != null && TableDefinitions.FirstOrDefault(t => t.TableName.Equals(tableName.TrimStringStart("datastore_") ?? string.Empty, StringComparison.InvariantCultureIgnoreCase)) == null)
             {
-                await DeleteDatabaseObjectsAsync(settings.SqlConnectionString, tableName.TrimStart("datastore_") ?? string.Empty);
+                await DeleteDatabaseObjectsAsync(settings.SqlConnectionString, tableName.TrimStringStart("datastore_") ?? string.Empty);
             }
         }
     }
@@ -3640,7 +3640,7 @@ END
     /// <param name="onlyTableName"></param>
     public static void DeleteDatabaseObjects(string sqlConnectionString, string onlyTableName = "")
     {
-        Tasks.WaitForTask(DeleteDatabaseObjectsAsync(sqlConnectionString, onlyTableName));
+        Tasks.WaitForTaskToComplete(DeleteDatabaseObjectsAsync(sqlConnectionString, onlyTableName));
     }
 
     /// <summary>
@@ -3662,7 +3662,7 @@ END
         var funcNames = GetFuncNames(sqlConnectionString);
         var drops = string.Empty;
 
-        if (onlyTableName.HasValue())
+        if (onlyTableName.StringHasValue())
         {
             tableNames.Clear();
             tableNames.Add("datastore_" + onlyTableName);
@@ -3803,13 +3803,13 @@ END
             }
         }
 
-        if (drops.HasValue())
+        if (drops.StringHasValue())
         {
             if (sqlConnectionString != null)
             {
                 try
                 {
-                    _ = new SqlExecute(new SqlExecuteSettings
+                    _ = new SqlExec(new SqlExecSettings
                     {
                         SqlConnectionString = sqlConnectionString,
                         CommandString = drops
@@ -3921,13 +3921,13 @@ END
             }
         }
 
-        if (drops.HasValue())
+        if (drops.StringHasValue())
         {
             if (sqlConnectionString != null)
             {
                 try
                 {
-                    _ = new SqlExecute(new SqlExecuteSettings
+                    _ = new SqlExec(new SqlExecSettings
                     {
                         SqlConnectionString = sqlConnectionString,
                         CommandString = drops
@@ -3965,7 +3965,7 @@ END
 
                 try
                 {
-                    _ = new SqlExecute(new SqlExecuteSettings
+                    _ = new SqlExec(new SqlExecSettings
                     {
                         SqlConnectionString = sqlConnectionString,
                         CommandString = query
@@ -4004,9 +4004,9 @@ END
     /// <param name="sqlConnectionString"></param>
     public void ShrinkDatabase()
     {
-        if (Settings.SqlConnectionString.HasValue())
+        if (Settings.SqlConnectionString.StringHasValue())
         {
-            if (Settings.DatabaseName.HasValue())
+            if (Settings.DatabaseName.StringHasValue())
             {
                 var commands = @$"
 DBCC SHRINKDATABASE ({Settings.DatabaseName}, 20)
@@ -4014,7 +4014,7 @@ DBCC SHRINKDATABASE ({Settings.DatabaseName}, 20)
 
                 try
                 {
-                    _ = new SqlExecute(new SqlExecuteSettings
+                    _ = new SqlExec(new SqlExecSettings
                     {
                         SqlConnectionString = Settings.SqlConnectionString,
                         CommandString = commands
@@ -4041,7 +4041,7 @@ REBUILD WITH (FILLFACTOR = 80, SORT_IN_TEMPDB = ON, STATISTICS_NORECOMPUTE = ON)
 
                 try
                 {
-                    _ = new SqlExecute(new SqlExecuteSettings
+                    _ = new SqlExec(new SqlExecSettings
                     {
                         SqlConnectionString = Settings.SqlConnectionString,
                         CommandString = commands
@@ -4066,7 +4066,7 @@ DBCC SHRINKFILE(@logfile_id, 0)
 
                 try
                 {
-                    _ = new SqlExecute(new SqlExecuteSettings
+                    _ = new SqlExec(new SqlExecSettings
                     {
                         SqlConnectionString = Settings.SqlConnectionString,
                         CommandString = commands
@@ -4127,7 +4127,7 @@ DBCC SHRINKFILE(@logfile_id, 0)
                 
                 try
                 {
-                    _ = new SqlExecute(new SqlExecuteSettings
+                    _ = new SqlExec(new SqlExecSettings
                     {
                         SqlConnectionString = Settings.SqlConnectionString,
                         CommandString = $"DELETE FROM [dbo].[datastore_{tableName}] WHERE [Id] = '{dso.Id}'"
@@ -4185,7 +4185,7 @@ INSERT INTO @matches
 SELECT o.[Id]
 FROM [dbo].[datastore_{tableName}] o {queryCrossApplyClause}";
 
-        if (query.WhereClause.HasValue())
+        if (query.WhereClause.StringHasValue())
         {
             select += $@"                    
 WHERE ({query.WhereClause})";
@@ -4203,7 +4203,7 @@ END
             
         try
         {
-            _ = new SqlExecute(new SqlExecuteSettings
+            _ = new SqlExec(new SqlExecSettings
             {
                 SqlConnectionString = Settings.SqlConnectionString,
                 CommandString = select
@@ -4222,7 +4222,7 @@ END
 
     public JsonSerializerContext? GetSerializerContext(string tableName)
     {
-        if (tableName.IsEmpty()) throw new Exception("DataStore.GetSerializerContext() => Table name cannot be empty");
+        if (tableName.StringIsEmpty()) throw new Exception("DataStore.GetSerializerContext() => Table name cannot be empty");
 
         var context = TableDefinitions.FirstOrDefault(t => t.TableName.Equals(tableName, StringComparison.InvariantCultureIgnoreCase))?.ModelSerializerContext;
         
@@ -4306,7 +4306,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
     /// <returns></returns>
     public static string JsonPathToPropertyPath(string jsonPath)
     {
-        return (jsonPath.Replace("\"", string.Empty).TrimStart("$") ?? string.Empty).Trim('.').Replace("[*]", ".").Replace("..", ".");
+        return (jsonPath.Replace("\"", string.Empty).TrimStringStart("$") ?? string.Empty).Trim('.').Replace("[*]", ".").Replace("..", ".");
     }
     
     /// <summary>
@@ -4329,7 +4329,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
     {
         var result = jsonPath
             .Replace("\"", string.Empty)
-            .TrimStart("$")?
+            .TrimStringStart("$")?
             .Replace("[*]", ".")
             .Replace("..", ".")
             .Trim('.');
@@ -4350,7 +4350,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
             {
                 if (prop.IsPublic)
                 {
-                    if (prop.FieldType.IsSimpleType())
+                    if (prop.FieldType.IsSimpleDataType())
                     {
                         var attrs = prop.GetCustomAttributes(true);
                         var skip = false;
@@ -4387,7 +4387,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
                                     IsClustered = isClusteredSortColumn,
                                     IsUnique = isUnique,
                                     JsonPath =
-                                        $"$.{(pathPrefix.HasValue() ? pathPrefix + '.' : string.Empty)}\"{prop.Name}\"",
+                                        $"$.{(pathPrefix.StringHasValue() ? pathPrefix + '.' : string.Empty)}\"{prop.Name}\"",
                                     DataType = prop.FieldType
                                 });
                             }
@@ -4425,7 +4425,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
                                                 {
                                                     ModelType = sourceType,
                                                     JsonPath =
-                                                        $"$.{(pathPrefix.HasValue() ? pathPrefix + '.' : string.Empty)}\"{prop.Name}\".\"{val}\"",
+                                                        $"$.{(pathPrefix.StringHasValue() ? pathPrefix + '.' : string.Empty)}\"{prop.Name}\".\"{val}\"",
                                                     DataType = kvpValueType
                                                 });
                                             }
@@ -4437,7 +4437,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
                             else if (Activator.CreateInstance(prop.FieldType) is not IList)
                             {
                                 ExplorePropertyOrField(sourceType, prop.FieldType,
-                                    (pathPrefix.HasValue() ? pathPrefix + '.' : string.Empty) + "\"" + prop.Name +
+                                    (pathPrefix.StringHasValue() ? pathPrefix + '.' : string.Empty) + "\"" + prop.Name +
                                     "\"");
                             }
                         }
@@ -4449,7 +4449,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
             {
                 if ((prop.GetMethod?.IsPublic ?? false) && prop.CanRead)
                 {
-                    if (prop.PropertyType.IsSimpleType())
+                    if (prop.PropertyType.IsSimpleDataType())
                     {
                         var attrs = prop.GetCustomAttributes(true);
                         var skip = false;
@@ -4486,7 +4486,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
                                     IsClustered = isClusteredSortColumn,
                                     IsUnique = isUnique,
                                     JsonPath =
-                                        $"$.{(pathPrefix.HasValue() ? pathPrefix + '.' : string.Empty)}\"{prop.Name}\"",
+                                        $"$.{(pathPrefix.StringHasValue() ? pathPrefix + '.' : string.Empty)}\"{prop.Name}\"",
                                     DataType = prop.PropertyType
                                 });
                             }
@@ -4524,7 +4524,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
                                                 {
                                                     ModelType = sourceType,
                                                     JsonPath =
-                                                        $"$.{(pathPrefix.HasValue() ? pathPrefix + '.' : string.Empty)}\"{prop.Name}\".\"{val}\"",
+                                                        $"$.{(pathPrefix.StringHasValue() ? pathPrefix + '.' : string.Empty)}\"{prop.Name}\".\"{val}\"",
                                                     DataType = kvpValueType
                                                 });
                                             }
@@ -4536,7 +4536,7 @@ WITH ({crossApplyWithFields[propertyPath]})");
                             else if (Activator.CreateInstance(prop.PropertyType) is not IList)
                             {
                                 ExplorePropertyOrField(sourceType, prop.PropertyType,
-                                    (pathPrefix.HasValue() ? pathPrefix + '.' : string.Empty) + "\"" + prop.Name +
+                                    (pathPrefix.StringHasValue() ? pathPrefix + '.' : string.Empty) + "\"" + prop.Name +
                                     "\"");
                             }
                         }
@@ -4626,11 +4626,11 @@ public class DataStoreIndexedColumn
     public bool IsClustered { get; set; }
     public bool IsUnique { get; set; }
     public string ComputedValue => ComputedColumnOutput();
-    public string Crc => ((int)(GetComputedValue().Crc32() + 0)).ToString(); // add integer to CRC to force a change
+    public string Crc => ((int)(GetComputedValue().CalculateCrc32() + 0)).ToString(); // add integer to CRC to force a change
     
     private string ComputedColumnOutput()
     {
-        var result = $"IIF({Crc}={Crc}, {GetComputedValue().TrimEnd(" NOT NULL").TrimEnd(" PERSISTED")?.Trim() ?? string.Empty}, NULL) PERSISTED{(Nullable.GetUnderlyingType(DataType) != null ? "" : " NOT NULL")}";
+        var result = $"IIF({Crc}={Crc}, {GetComputedValue().TrimStringEnd(" NOT NULL").TrimStringEnd(" PERSISTED")?.Trim() ?? string.Empty}, NULL) PERSISTED{(Nullable.GetUnderlyingType(DataType) != null ? "" : " NOT NULL")}";
 
         return result;
     }
