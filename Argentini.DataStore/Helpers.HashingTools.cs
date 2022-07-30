@@ -1,6 +1,6 @@
 ﻿namespace Argentini.DataStore;
 
-public static class Hashing
+public static class HashingTools
 {
 	/// <summary>
 	/// Calculate the CRC-32 of a string.

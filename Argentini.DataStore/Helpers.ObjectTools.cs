@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Argentini.DataStore;
 
-public static class Objects
+public static class ObjectTools
 {
 	/// <summary>
 	/// Get all types that inherit from a base type
@@ -44,7 +44,7 @@ public static class Objects
 	/// <param name="destination">Clone</param>
 	public static void CloneObjectTo<T>(this T? source, T? destination)
 	{
-		Tasks.WaitForTaskToComplete(CloneObjectToAsync(source, destination));		
+		TaskTools.WaitForTaskToComplete(CloneObjectToAsync(source, destination));		
 	}
 	
 	/// <summary>

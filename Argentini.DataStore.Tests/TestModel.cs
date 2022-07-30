@@ -14,7 +14,7 @@ public class TestModel: TestBaseModel
     [DsIndexedColumn] public string FirstName { get; set; } = string.Empty;
     public string MiddleName { get; set; } = string.Empty;
     [DsIndexedColumn] public string LastName { get; set; } = string.Empty;
-    public string SortName => Strings.SortableNameString(FirstName, MiddleName, LastName);
+    public string SortName => StringTools.SortableNameString(FirstName, MiddleName, LastName);
     public string? NullTest { get; set; }
     public string Message { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;

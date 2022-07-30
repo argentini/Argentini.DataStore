@@ -105,7 +105,7 @@ public class DsMigration
     {
         try
         {
-            _ = new SqlExec(new SqlExecSettings
+            _ = new SqlServerExecute(new SqlServerExecuteSettings
             {
                 SqlConnectionString = DataStore.Settings.SqlConnectionString,
                 CommandString = $@"
@@ -137,7 +137,7 @@ DROP INDEX IF EXISTS ix_json_data ON [dbo].[{tableName}]";
         {
             try
             {
-                _ = new SqlExec(new SqlExecSettings
+                _ = new SqlServerExecute(new SqlServerExecuteSettings
                 {
                     SqlConnectionString = DataStore.Settings.SqlConnectionString,
                     CommandString = indexScript
@@ -159,7 +159,7 @@ DROP INDEX IF EXISTS ix_json_data ON [dbo].[{tableName}]";
         var commands = new StringBuilder();
 
         // Drop functions and sprocs
-        Tasks.RunSynchronous(() => DataStore.DeleteDatabaseHelperObjectsAsync(DataStore.Settings.SqlConnectionString));
+        TaskTools.RunSynchronous(() => DataStore.DeleteDatabaseHelperObjectsAsync(DataStore.Settings.SqlConnectionString));
 
         // Rename tables as temp tables
         foreach (var tableName in tableNames)
@@ -178,7 +178,7 @@ EXEC sp_rename '{tableName}', '{tableName.Replace("datastore_", "datastoreTEMP_"
         {
             try
             {
-                _ = new SqlExec(new SqlExecSettings
+                _ = new SqlServerExecute(new SqlServerExecuteSettings
                 {
                     SqlConnectionString = DataStore.Settings.SqlConnectionString,
                     CommandString = commands.ToString()
@@ -195,16 +195,16 @@ EXEC sp_rename '{tableName}', '{tableName.Replace("datastore_", "datastoreTEMP_"
     public void PreMigrateFrom3_2()
     {
         // Drop functions and sprocs
-        Tasks.RunSynchronous(() => DataStore.DeleteDatabaseHelperObjectsAsync(DataStore.Settings.SqlConnectionString));
+        TaskTools.RunSynchronous(() => DataStore.DeleteDatabaseHelperObjectsAsync(DataStore.Settings.SqlConnectionString));
 
-        foreach (var modelType in Objects.GetInheritedTypes(typeof(DsObject)).ToList())
+        foreach (var modelType in ObjectTools.GetInheritedTypes(typeof(DsObject)).ToList())
         {
             var oldTableName = modelType.Name;
             var newTableName = DataStore.GenerateTableName(modelType);
 
             try
             {
-                _ = new SqlExec(new SqlExecSettings
+                _ = new SqlServerExecute(new SqlServerExecuteSettings
                 {
                     SqlConnectionString = DataStore.Settings.SqlConnectionString,
                     CommandString = $@"
@@ -274,7 +274,7 @@ $@"""Id"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SqlSafeGetGuid("object_
 
                                             try
                                             {
-                                                _ = new SqlExec(new SqlExecSettings
+                                                _ = new SqlServerExecute(new SqlServerExecuteSettings
                                                 {
                                                     SqlConnectionString = DataStore.Settings.SqlConnectionString,
                                                     CommandString = $"INSERT INTO [dbo].[{tableName}] ([json_data]) VALUES ({DataStore.QuotedOrNull(json.Replace("'", "''"))})" 
@@ -305,7 +305,7 @@ $@"""Id"": {DataStore.JsonQuotedGuidOrNull(sqlDataReader.SqlSafeGetGuid("object_
 
                 try
                 {
-                    _ = new SqlExec(new SqlExecSettings
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
                     {
                         SqlConnectionString = DataStore.Settings.SqlConnectionString,
                         CommandString = $"DROP TABLE [dbo].[{tempTableName}]" 

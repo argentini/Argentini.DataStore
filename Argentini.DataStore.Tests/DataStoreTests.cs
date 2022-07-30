@@ -55,7 +55,7 @@ public class DataStoreTests
         _firstName = Faker.Name.First();
         _middleName = Faker.Name.Middle();
         _lastName = Faker.Name.Last();
-        _fullName = Strings.SortableNameString(_firstName, _middleName, _lastName);
+        _fullName = StringTools.SortableNameString(_firstName, _middleName, _lastName);
 
         _dso = new TestModel
         {
@@ -126,7 +126,7 @@ public class DataStoreTests
         _firstName = Faker.Name.First();
         _middleName = Faker.Name.Middle();
         _lastName = Faker.Name.Last();
-        _fullName = Strings.SortableNameString(_firstName, _middleName, _lastName);
+        _fullName = StringTools.SortableNameString(_firstName, _middleName, _lastName);
 
         dso.Id = Guid.NewGuid();
         dso.Index = index.ToString();
@@ -147,24 +147,24 @@ public class DataStoreTests
         var efficiency = (100 / (totalTime / totalSqlTime)) * 0.01;
 
         var sqlTime =
-            $"   Total SQL Time       : {Strings.FormatTimerString(totalSqlTime)}  /  Read: {Strings.FormatTimerString(totalReadTime)}  /  Write: {Strings.FormatTimerString(totalWriteTime)}";
+            $"   Total SQL Time       : {StringTools.FormatTimerString(totalSqlTime)}  /  Read: {StringTools.FormatTimerString(totalReadTime)}  /  Write: {StringTools.FormatTimerString(totalWriteTime)}";
         var cpuTime =
-            $"   Total CPU Time       : {Strings.FormatTimerString(overhead)}";
+            $"   Total CPU Time       : {StringTools.FormatTimerString(overhead)}";
         
         if (dataStore.LastTotalWriteTimeMs == 0)
         {
             sqlTime =
-                $"   Total SQL Time       : {Strings.FormatTimerString(totalSqlTime)}";
+                $"   Total SQL Time       : {StringTools.FormatTimerString(totalSqlTime)}";
             cpuTime =
-                $"   Total CPU Time       : {Strings.FormatTimerString(overhead)}";
+                $"   Total CPU Time       : {StringTools.FormatTimerString(overhead)}";
         }
         
         _output.Add($"");
         _output.Add(sqlTime);
         _output.Add(cpuTime);
-        _output.Add($"   Total Time           : {Strings.FormatTimerString(totalTime)}");
+        _output.Add($"   Total Time           : {StringTools.FormatTimerString(totalTime)}");
         _output.Add($"   Efficiency           : {efficiency:P1}");
-        _output.Add($"   Effective Rate       : {Strings.Performance(PerformanceWriteNumber, totalTime, 0)}");
+        _output.Add($"   Effective Rate       : {StringTools.Performance(PerformanceWriteNumber, totalTime, 0)}");
     }
     
     [Fact, Order(0)]
@@ -184,7 +184,7 @@ public class DataStoreTests
     [Fact, Order(1)]
     public async Task ObjectHandling()
     {
-        var types = Objects.GetInheritedTypes(typeof(DsObject)).ToList();
+        var types = ObjectTools.GetInheritedTypes(typeof(DsObject)).ToList();
         Assert.True(types.Any());
 
         Assert.Equal("TestBaseModel", DataStore.GenerateTableName(typeof(TestBaseModel)));
@@ -446,21 +446,21 @@ public class DataStoreTests
                     newDso.FirstName = "Michael";
                     newDso.MiddleName = "Q";
                     newDso.LastName = "Tester1";
-                    fullName = Strings.SortableNameString("Michael", "Q", "Tester1");
+                    fullName = StringTools.SortableNameString("Michael", "Q", "Tester1");
                     newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 case WriteNumber - 2:
                     newDso.FirstName = "Gwen";
                     newDso.MiddleName = "E";
                     newDso.LastName = "Tester2";
-                    fullName = Strings.SortableNameString("Gwen", "E", "Tester1");
+                    fullName = StringTools.SortableNameString("Gwen", "E", "Tester1");
                     newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 case WriteNumber - 1:
                     newDso.FirstName = "Chloe";
                     newDso.MiddleName = "I";
                     newDso.LastName = "Tester3";
-                    fullName = Strings.SortableNameString("Chloe", "I", "Tester1");
+                    fullName = StringTools.SortableNameString("Chloe", "I", "Tester1");
                     newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 default:
@@ -621,21 +621,21 @@ public class DataStoreTests
                     newDso.FirstName = "Michael";
                     newDso.MiddleName = "Q";
                     newDso.LastName = "Tester1";
-                    fullName = Strings.SortableNameString("Michael", "Q", "Tester1");
+                    fullName = StringTools.SortableNameString("Michael", "Q", "Tester1");
                     newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 case WriteNumber - 2:
                     newDso.FirstName = "Gwen";
                     newDso.MiddleName = "E";
                     newDso.LastName = "Tester2";
-                    fullName = Strings.SortableNameString("Gwen", "E", "Tester1");
+                    fullName = StringTools.SortableNameString("Gwen", "E", "Tester1");
                     newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 case WriteNumber - 1:
                     newDso.FirstName = "Chloe";
                     newDso.MiddleName = "I";
                     newDso.LastName = "Tester3";
-                    fullName = Strings.SortableNameString("Chloe", "I", "Tester1");
+                    fullName = StringTools.SortableNameString("Chloe", "I", "Tester1");
                     newDso.Email = fullName.ToSlugString() + "@example.com";
                     break;
                 default:
@@ -751,14 +751,14 @@ public class DataStoreTests
 
         for (var x = 0; x < PerformanceWriteNumber; x++) dsos[x].Serialize(dataStore, generateJsonDocument: false);
 
-        _output.Add($"Serialize Baseline      : {Strings.FormatTimerString(timer.ElapsedMilliseconds)}");
+        _output.Add($"Serialize Baseline      : {StringTools.FormatTimerString(timer.ElapsedMilliseconds)}");
 
         timer.Reset();
         timer.Start();
 
         for (var x = 0; x < PerformanceWriteNumber; x++) await dsos[x].Deserialize(dsos[x].Json, dataStore);
 
-        _output.Add($"Deserialize Baseline    : {Strings.FormatTimerString(timer.ElapsedMilliseconds)}");
+        _output.Add($"Deserialize Baseline    : {StringTools.FormatTimerString(timer.ElapsedMilliseconds)}");
 
         #region No Lineages
 
@@ -935,7 +935,7 @@ public class DataStoreTests
         totalTimer.Stop();
 
         _output.Add($"");
-        _output.Add($"=> TOTAL TEST TIME: " + Strings.FormatTimerString(totalTimer.ElapsedMilliseconds));
+        _output.Add($"=> TOTAL TEST TIME: " + StringTools.FormatTimerString(totalTimer.ElapsedMilliseconds));
         
         _output.Add("");
         await File.AppendAllLinesAsync("../../../results.txt", _output);

@@ -16,7 +16,7 @@ namespace Argentini.DataStore;
 /// DataStore uses and automatically creates and manages a pre-defined SQL Server data structure that can coexist with existing database objects.
 /// All database operations are performed with the DataStore class.
 ///
-/// Objects are stored as serialized JSON so you can have most any kind of object structure, provided your models inherit from DsObject.
+/// ObjectTools are stored as serialized JSON so you can have most any kind of object structure, provided your models inherit from DsObject.
 /// </summary>
 /// <example>
 /// Instantiating DataStore with settings is non-destructive. Any existing DataStore tables are left untouched.
@@ -245,7 +245,7 @@ public class DataStore
 
         Settings = settings;
 
-        foreach (var modelType in Objects.GetInheritedTypes(typeof(DsObject)).ToList())
+        foreach (var modelType in ObjectTools.GetInheritedTypes(typeof(DsObject)).ToList())
         {
             var noTable = false;
             
@@ -549,7 +549,7 @@ INSERT INTO [dbo].[datastore] ([version]) VALUES ({(freshBuild ? Version : "2.0"
                 {
                     try
                     {
-                        _ = new SqlExec(new SqlExecSettings
+                        _ = new SqlServerExecute(new SqlServerExecuteSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -558,7 +558,7 @@ INSERT INTO [dbo].[datastore] ([version]) VALUES ({(freshBuild ? Version : "2.0"
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExec() => {e.Message}");
+                        throw new Exception($"SqlServerExecute() => {e.Message}");
                     }
                 }
 
@@ -706,7 +706,7 @@ CREATE{(cc.IsUnique ? " UNIQUE" : string.Empty)}{(cc.IsClustered ? " CLUSTERED" 
                 {
                     try
                     {
-                        _ = new SqlExec(new SqlExecSettings
+                        _ = new SqlServerExecute(new SqlServerExecuteSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = changeScript.ToString()
@@ -715,7 +715,7 @@ CREATE{(cc.IsUnique ? " UNIQUE" : string.Empty)}{(cc.IsClustered ? " CLUSTERED" 
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExec() => {e.Message}");
+                        throw new Exception($"SqlServerExecute() => {e.Message}");
                     }
                 }
                 
@@ -756,7 +756,7 @@ END
 ";
                     try
                     {
-                        _ = new SqlExec(new SqlExecSettings
+                        _ = new SqlServerExecute(new SqlServerExecuteSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -765,7 +765,7 @@ END
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExec() => Failed to create [dbo].[udf_datastore_{tableName}_GetDepth]; {e.Message}");
+                        throw new Exception($"SqlServerExecute() => Failed to create [dbo].[udf_datastore_{tableName}_GetDepth]; {e.Message}");
                     }
 
                     create = $@"
@@ -802,7 +802,7 @@ END
 
                     try
                     {
-                        _ = new SqlExec(new SqlExecSettings
+                        _ = new SqlServerExecute(new SqlServerExecuteSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -811,7 +811,7 @@ END
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExec() => Failed to create [dbo].[udf_datastore_{tableName}_GetLineage]; {e.Message}");
+                        throw new Exception($"SqlServerExecute() => Failed to create [dbo].[udf_datastore_{tableName}_GetLineage]; {e.Message}");
                     }
 
                     create = $@"
@@ -851,7 +851,7 @@ END
 
                     try
                     {
-                        _ = new SqlExec(new SqlExecSettings
+                        _ = new SqlServerExecute(new SqlServerExecuteSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -860,7 +860,7 @@ END
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExec() => Failed to create [dbo].[udf_datastore_{tableName}_HasAncestor]; {e.Message}");
+                        throw new Exception($"SqlServerExecute() => Failed to create [dbo].[udf_datastore_{tableName}_HasAncestor]; {e.Message}");
                     }
                 }
 
@@ -989,7 +989,7 @@ END
 
                     try
                     {
-                        _ = new SqlExec(new SqlExecSettings
+                        _ = new SqlServerExecute(new SqlServerExecuteSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = create
@@ -998,7 +998,7 @@ END
 
                     catch (Exception e)
                     {
-                        throw new Exception($"SqlExec() => Failed to create [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages]; {e.Message}");
+                        throw new Exception($"SqlServerExecute() => Failed to create [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages]; {e.Message}");
                     }
                 }
 
@@ -1155,7 +1155,7 @@ END
 
             try
             {
-                _ = new SqlExec(new SqlExecSettings
+                _ = new SqlServerExecute(new SqlServerExecuteSettings
                 {
                     SqlConnectionString = Settings.SqlConnectionString,
                     CommandString = writeQuery.ToString()
@@ -1164,7 +1164,7 @@ END
 
             catch (Exception e)
             {
-                throw new Exception($"DataStore.SaveAsync(Write Objects) => {e.Message}");
+                throw new Exception($"DataStore.SaveAsync(Write ObjectTools) => {e.Message}");
             }
 
             StringBuilderPool.Return(writeQuery);
@@ -1220,7 +1220,7 @@ END
 
                     try
                     {
-                        _ = new SqlExec(new SqlExecSettings
+                        _ = new SqlServerExecute(new SqlServerExecuteSettings
                         {
                             SqlConnectionString = Settings.SqlConnectionString,
                             CommandString = lineageQuery.ToString()
@@ -1334,7 +1334,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     /// <param name="maxDegreeOfParallelism">Number of concurrent save requests</param>
     public void SaveMany<T>(IEnumerable<T> dsos, int maxDegreeOfParallelism = -1)
     {
-        Tasks.WaitForTaskToComplete(SaveManyAsync(dsos), maxDegreeOfParallelism);
+        TaskTools.WaitForTaskToComplete(SaveManyAsync(dsos), maxDegreeOfParallelism);
     }
     
     /// <summary>
@@ -1370,7 +1370,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     /// <param name="maxDegreeOfParallelism">Number of concurrent save requests</param>
     public void Save(DsObject dso, int maxDegreeOfParallelism = -1)
     {
-        Tasks.WaitForTaskToComplete(SaveManyAsync(dso.GetType(), new List<DsObject> { dso }), maxDegreeOfParallelism);
+        TaskTools.WaitForTaskToComplete(SaveManyAsync(dso.GetType(), new List<DsObject> { dso }), maxDegreeOfParallelism);
     }
     
     #endregion
@@ -1392,7 +1392,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     // ReSharper disable once UnusedMember.Global
     public T? GetSingleById<T>(Guid? id) where T : class
     {
-        return Tasks.WaitForTaskToComplete(GetSingleByIdAsync(typeof(T), id)) as T;
+        return TaskTools.WaitForTaskToComplete(GetSingleByIdAsync(typeof(T), id)) as T;
     }
 
     /// <summary>
@@ -1410,7 +1410,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     // ReSharper disable once UnusedMember.Global
     public DsObject? GetSingleById(Type type, Guid? id)
     {
-        return Tasks.WaitForTaskToComplete(GetSingleByIdAsync(type, id));
+        return TaskTools.WaitForTaskToComplete(GetSingleByIdAsync(type, id));
     }
     
     /// <summary>
@@ -1463,7 +1463,7 @@ SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(
     // ReSharper disable once UnusedMember.Global
     public T? GetSingle<T>(DsQuery? query) where T : class
    {
-        return Tasks.WaitForTaskToComplete(GetSingleAsync(typeof(T), query)) as T;
+        return TaskTools.WaitForTaskToComplete(GetSingleAsync(typeof(T), query)) as T;
     }
     
     /// <summary>
@@ -1670,7 +1670,7 @@ INNER JOIN pg2 ON pg2.[Id] = c.[Id]
     // ReSharper disable once UnusedMember.Global
     public List<T> GetMany<T>(int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null) where T : class
     {
-        return Tasks.WaitForTaskToComplete(GetManyAsync<T>(page, perPage, query, orderBy));
+        return TaskTools.WaitForTaskToComplete(GetManyAsync<T>(page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -1860,7 +1860,7 @@ FROM
     // ReSharper disable once UnusedMember.Global
     public long GetCount<T>()
     {
-        return Tasks.WaitForTaskToComplete(GetCountAsync<T>());
+        return TaskTools.WaitForTaskToComplete(GetCountAsync<T>());
     }
     
     /// <summary>
@@ -1871,7 +1871,7 @@ FROM
     // ReSharper disable once UnusedMember.Global
     public long GetCount<T>(DsQuery? query)
     {
-        return Tasks.WaitForTaskToComplete(GetCountAsync<T>(query));
+        return TaskTools.WaitForTaskToComplete(GetCountAsync<T>(query));
     }
 
     /// <summary>
@@ -2089,7 +2089,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetDescendants<T>(Guid? ancestorId, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null, int depth = -1)
     {
-        return Tasks.WaitForTaskToComplete(GetDescendantsAsync<T>(ancestorId, page, perPage, query, orderBy, depth));
+        return TaskTools.WaitForTaskToComplete(GetDescendantsAsync<T>(ancestorId, page, perPage, query, orderBy, depth));
     }        
 
     /// <summary>
@@ -2165,7 +2165,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetDescendants<T>(DsObject? dso, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null, int depth = -1)
     {
-        return Tasks.WaitForTaskToComplete(GetDescendantsAsync<T>(dso, page, perPage, query, orderBy, depth));
+        return TaskTools.WaitForTaskToComplete(GetDescendantsAsync<T>(dso, page, perPage, query, orderBy, depth));
     }
     
     /// <summary>
@@ -2294,7 +2294,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetChildren<T>(Guid? parentId, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null)
     {
-        return Tasks.WaitForTaskToComplete(GetChildrenAsync<T>(parentId, page, perPage, query, orderBy));
+        return TaskTools.WaitForTaskToComplete(GetChildrenAsync<T>(parentId, page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -2368,7 +2368,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetChildren<T>(DsObject? dso, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null)
     {
-        return Tasks.WaitForTaskToComplete(GetChildrenAsync<T>(dso, page, perPage, query, orderBy));
+        return TaskTools.WaitForTaskToComplete(GetChildrenAsync<T>(dso, page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -2504,7 +2504,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetAncestors<T>(Guid? dsoId, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null)
     {
-        return Tasks.WaitForTaskToComplete(GetAncestorsAsync<T>(dsoId, page, perPage, query, orderBy));
+        return TaskTools.WaitForTaskToComplete(GetAncestorsAsync<T>(dsoId, page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -2578,7 +2578,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> GetAncestors<T>(DsObject? dso, int page = 1, int perPage = int.MaxValue, DsQuery? query = null, DsOrderBy? orderBy = null)
     {
-        return Tasks.WaitForTaskToComplete(GetAncestorsAsync<T>(dso, page, perPage, query, orderBy));
+        return TaskTools.WaitForTaskToComplete(GetAncestorsAsync<T>(dso, page, perPage, query, orderBy));
     }
 
     /// <summary>
@@ -2654,7 +2654,7 @@ END
         {
             try
             {
-                _ = new SqlExec(new SqlExecSettings
+                _ = new SqlServerExecute(new SqlServerExecuteSettings
                 {
                     SqlConnectionString = Settings.SqlConnectionString,
                     CommandString = $"EXEC [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages] @parent_object_id = {QuotedGuidOrNull(parentId)}"
@@ -2671,7 +2671,7 @@ END
         {
             try
             {
-                _ = new SqlExec(new SqlExecSettings
+                _ = new SqlServerExecute(new SqlServerExecuteSettings
                 {
                     SqlConnectionString = Settings.SqlConnectionString,
                     CommandString = $"EXEC [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages] @parent_object_id = NULL"
@@ -2894,7 +2894,7 @@ END
     /// <param name="dso">DsObject object</param>
     public void Delete(DsObject? dso)
     {
-        Tasks.WaitForTaskToComplete(DeleteAsync(dso));
+        TaskTools.WaitForTaskToComplete(DeleteAsync(dso));
     }
 
     /// <summary>
@@ -2938,7 +2938,7 @@ END
     // ReSharper disable once MemberCanBePrivate.Global
     public void Delete<T>(Guid? objectId) where T : class
     {
-        Tasks.WaitForTaskToComplete(DeleteAsync<T>(objectId));
+        TaskTools.WaitForTaskToComplete(DeleteAsync<T>(objectId));
     }
 
     /// <summary>
@@ -3000,7 +3000,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> Delete<T>(DsQuery? query)
     {
-        return Tasks.WaitForTaskToComplete(DeleteAsync<T>(query));
+        return TaskTools.WaitForTaskToComplete(DeleteAsync<T>(query));
     }
 
     /// <summary>
@@ -3193,7 +3193,7 @@ END
     /// <param name="dso">DsObject object</param>
     public void Undelete(DsObject? dso)
     {
-        Tasks.WaitForTaskToComplete(UndeleteAsync(dso));
+        TaskTools.WaitForTaskToComplete(UndeleteAsync(dso));
     }
 
     /// <summary>
@@ -3237,7 +3237,7 @@ END
     // ReSharper disable once MemberCanBePrivate.Global
     public void Undelete<T>(Guid? objectId) where T : class
     {
-        Tasks.WaitForTaskToComplete(UndeleteAsync<T>(objectId));
+        TaskTools.WaitForTaskToComplete(UndeleteAsync<T>(objectId));
     }
 
     /// <summary>
@@ -3301,7 +3301,7 @@ END
     // ReSharper disable once UnusedMember.Global
     public List<T> Undelete<T>(DsQuery? query)
     {
-        return Tasks.WaitForTaskToComplete(UndeleteAsync<T>(query));
+        return TaskTools.WaitForTaskToComplete(UndeleteAsync<T>(query));
     }
 
     /// <summary>
@@ -3606,7 +3606,7 @@ END
     /// <param name="settings"></param>
     public void DeleteUnusedTables(DataStoreSettings settings)
     {
-        Tasks.WaitForTaskToComplete(DeleteUnusedTablesAsync(settings));
+        TaskTools.WaitForTaskToComplete(DeleteUnusedTablesAsync(settings));
     }
     
     /// <summary>
@@ -3640,7 +3640,7 @@ END
     /// <param name="onlyTableName"></param>
     public static void DeleteDatabaseObjects(string sqlConnectionString, string onlyTableName = "")
     {
-        Tasks.WaitForTaskToComplete(DeleteDatabaseObjectsAsync(sqlConnectionString, onlyTableName));
+        TaskTools.WaitForTaskToComplete(DeleteDatabaseObjectsAsync(sqlConnectionString, onlyTableName));
     }
 
     /// <summary>
@@ -3809,7 +3809,7 @@ END
             {
                 try
                 {
-                    _ = new SqlExec(new SqlExecSettings
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
                     {
                         SqlConnectionString = sqlConnectionString,
                         CommandString = drops
@@ -3927,7 +3927,7 @@ END
             {
                 try
                 {
-                    _ = new SqlExec(new SqlExecSettings
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
                     {
                         SqlConnectionString = sqlConnectionString,
                         CommandString = drops
@@ -3965,7 +3965,7 @@ END
 
                 try
                 {
-                    _ = new SqlExec(new SqlExecSettings
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
                     {
                         SqlConnectionString = sqlConnectionString,
                         CommandString = query
@@ -4014,7 +4014,7 @@ DBCC SHRINKDATABASE ({Settings.DatabaseName}, 20)
 
                 try
                 {
-                    _ = new SqlExec(new SqlExecSettings
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
                     {
                         SqlConnectionString = Settings.SqlConnectionString,
                         CommandString = commands
@@ -4041,7 +4041,7 @@ REBUILD WITH (FILLFACTOR = 80, SORT_IN_TEMPDB = ON, STATISTICS_NORECOMPUTE = ON)
 
                 try
                 {
-                    _ = new SqlExec(new SqlExecSettings
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
                     {
                         SqlConnectionString = Settings.SqlConnectionString,
                         CommandString = commands
@@ -4066,7 +4066,7 @@ DBCC SHRINKFILE(@logfile_id, 0)
 
                 try
                 {
-                    _ = new SqlExec(new SqlExecSettings
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
                     {
                         SqlConnectionString = Settings.SqlConnectionString,
                         CommandString = commands
@@ -4127,7 +4127,7 @@ DBCC SHRINKFILE(@logfile_id, 0)
                 
                 try
                 {
-                    _ = new SqlExec(new SqlExecSettings
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
                     {
                         SqlConnectionString = Settings.SqlConnectionString,
                         CommandString = $"DELETE FROM [dbo].[datastore_{tableName}] WHERE [Id] = '{dso.Id}'"
@@ -4203,7 +4203,7 @@ END
             
         try
         {
-            _ = new SqlExec(new SqlExecSettings
+            _ = new SqlServerExecute(new SqlServerExecuteSettings
             {
                 SqlConnectionString = Settings.SqlConnectionString,
                 CommandString = select
@@ -4565,7 +4565,7 @@ public class DataStoreTableSetting
     public string TableName { get; set; } = string.Empty;
 
     /// <summary>
-    /// Objects will provide tree depth and allow fast queries for ancestors and descendants.
+    /// ObjectTools will provide tree depth and allow fast queries for ancestors and descendants.
     /// Enabling lineage features will negatively affect write performance in some cases.
     /// Lineage features are not required to assign and query parent objects.
     /// </summary>

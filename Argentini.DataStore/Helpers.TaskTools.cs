@@ -1,6 +1,6 @@
 ﻿namespace Argentini.DataStore;
 
-public static class Tasks
+public static class TaskTools
 {
 	/// <summary>
 	/// Wait for a Task object to complete, be cancelled, or be faulted.

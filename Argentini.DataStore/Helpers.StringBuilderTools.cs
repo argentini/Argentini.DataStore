@@ -2,7 +2,7 @@
 
 namespace Argentini.DataStore;
 
-public static class StringBuilders
+public static class StringBuilderTools
 {
 	/// <summary>
 	/// Determines if a StringBuilder object has a value (is not null or empty).

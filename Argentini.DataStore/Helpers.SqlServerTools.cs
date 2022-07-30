@@ -6,7 +6,7 @@ namespace Argentini.DataStore;
 /// <summary>
 /// Various tools to make using SqlConnection and SqlDataReader more bearable. 
 /// </summary>
-public static class SqlTools
+public static class SqlServerTools
 {
 	/// <summary>
 	/// Determine if a column exists in an open SqlDataReader.
@@ -106,7 +106,7 @@ public static class SqlTools
 	/// <returns></returns>
 	public static string SqlSafeGetString(this SqlDataReader sqlDataReader, string columnName, string defaultValue = "")
 	{
-		return Tasks.RunSynchronous(() => SqlSafeGetStringAsync(sqlDataReader, columnName, defaultValue));
+		return TaskTools.RunSynchronous(() => SqlSafeGetStringAsync(sqlDataReader, columnName, defaultValue));
 	}
 
 	/// <summary>
@@ -135,7 +135,7 @@ public static class SqlTools
 	/// <returns></returns>
 	public static Guid SqlSafeGetGuid(this SqlDataReader sqlDataReader, string columnName, Guid defaultValue = new ())
 	{
-		return Tasks.RunSynchronous(() => SqlSafeGetGuidAsync(sqlDataReader, columnName, defaultValue));
+		return TaskTools.RunSynchronous(() => SqlSafeGetGuidAsync(sqlDataReader, columnName, defaultValue));
 	}
 	
 	/// <summary>
@@ -164,7 +164,7 @@ public static class SqlTools
 	/// <returns></returns>
 	public static int SqlSafeGetInt(this SqlDataReader sqlDataReader, string columnName, int defaultValue = 0)
 	{
-		return Tasks.RunSynchronous(() => SqlSafeGetIntAsync(sqlDataReader, columnName, defaultValue));
+		return TaskTools.RunSynchronous(() => SqlSafeGetIntAsync(sqlDataReader, columnName, defaultValue));
 	}
 	
 	/// <summary>
@@ -193,7 +193,7 @@ public static class SqlTools
 	/// <returns></returns>
 	public static long SqlSafeGetLong(this SqlDataReader sqlDataReader, string columnName, long defaultValue = 0)
 	{
-		return Tasks.RunSynchronous(() => SqlSafeGetLongAsync(sqlDataReader, columnName, defaultValue));
+		return TaskTools.RunSynchronous(() => SqlSafeGetLongAsync(sqlDataReader, columnName, defaultValue));
 	}
 	
 	/// <summary>
@@ -222,7 +222,7 @@ public static class SqlTools
 	/// <returns></returns>
 	public static double SqlSafeGetDouble(this SqlDataReader sqlDataReader, string columnName, double defaultValue = 0)
 	{
-		return Tasks.RunSynchronous(() => SqlSafeGetDoubleAsync(sqlDataReader, columnName, defaultValue));
+		return TaskTools.RunSynchronous(() => SqlSafeGetDoubleAsync(sqlDataReader, columnName, defaultValue));
 	}
 	
 	/// <summary>
@@ -253,14 +253,14 @@ public static class SqlTools
 	/// <returns></returns>
 	public static DateTimeOffset SqlSafeGetDateTimeOffset(this SqlDataReader sqlDataReader, string columnName, DateTimeOffset defaultValue = new ())
 	{
-		return Tasks.RunSynchronous(() => SqlSafeGetDateTimeOffsetAsync(sqlDataReader, columnName, defaultValue));
+		return TaskTools.RunSynchronous(() => SqlSafeGetDateTimeOffsetAsync(sqlDataReader, columnName, defaultValue));
 	}
 }
 
 /// <summary>
-/// Settings for the SqlExec class.
+/// Settings for the SqlServerExecute class.
 /// </summary>
-public class SqlExecSettings
+public class SqlServerExecuteSettings
 {
 	public string CommandString { get; init; } = string.Empty;
 	public string SqlConnectionString { get; init; } = string.Empty;
@@ -274,7 +274,7 @@ public class SqlExecSettings
 
 	public int CommandTimeoutSeconds { get; init; }
 
-	public SqlExecSettings()
+	public SqlServerExecuteSettings()
 	{
 		_parametersDictionary = new Dictionary<string, object>();
 	}
@@ -284,7 +284,7 @@ public class SqlExecSettings
 /// Execute a T-SQL stored procedure or command text that has no return value.
 /// Does not need to be disposed.
 /// </summary>
-public sealed class SqlExec
+public sealed class SqlServerExecute
 {
 	/// <summary>
 	/// Instantiate the class and execute the T-SQL code.
@@ -293,7 +293,7 @@ public sealed class SqlExec
 	/// <code>
 	/// try
 	/// {
-	///     var execute = new SqlExec(new SqlExecSettings
+	///     var execute = new SqlServerExecute(new SqlServerExecuteSettings
 	///     {
 	///         SqlConnectionString = sqlConnectionString,
 	///         CommandString = commandText
@@ -306,19 +306,19 @@ public sealed class SqlExec
 	/// }
 	/// </code>
 	/// </example>
-	/// <param name="sqlExecSettings"></param>
-	public SqlExec(SqlExecSettings sqlExecSettings)
+	/// <param name="sqlServerExecuteSettings"></param>
+	public SqlServerExecute(SqlServerExecuteSettings sqlServerExecuteSettings)
 	{
-		using (var sqlConnection = new SqlConnection(sqlExecSettings.SqlConnectionString))
+		using (var sqlConnection = new SqlConnection(sqlServerExecuteSettings.SqlConnectionString))
 		{
 			using (var sqlCmd = new SqlCommand())
 			{
-				sqlCmd.CommandText = sqlExecSettings.CommandString;
+				sqlCmd.CommandText = sqlServerExecuteSettings.CommandString;
 				sqlCmd.Connection = sqlConnection;
 
-				if (sqlExecSettings.ParametersDictionary.Any())
+				if (sqlServerExecuteSettings.ParametersDictionary.Any())
 				{
-					foreach (var (key, value) in sqlExecSettings.ParametersDictionary)
+					foreach (var (key, value) in sqlServerExecuteSettings.ParametersDictionary)
 					{
 						sqlCmd.Parameters.AddWithValue(key, value);
 					}
@@ -341,7 +341,7 @@ public sealed class SqlExec
 					if (sqlConnection.State != ConnectionState.Closed)
 						sqlConnection.Close();
 
-					throw new Exception($"Helpers.SqlExec() => {e.Message}");
+					throw new Exception($"Helpers.SqlServerExecute() => {e.Message}");
 				}
 			}
 

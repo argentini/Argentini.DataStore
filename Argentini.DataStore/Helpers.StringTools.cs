@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Argentini.DataStore;
 
-public static class Strings
+public static class StringTools
 {
 	/// <summary>
 	/// RepeatString the first character a given string up to a specified number.
