@@ -1,4 +1,4 @@
-namespace Argentini.DataStore.Tests;
+namespace DataStore.Tests;
 
 [DsNoDatabaseTable]
 public class TestBaseModel: DsObject

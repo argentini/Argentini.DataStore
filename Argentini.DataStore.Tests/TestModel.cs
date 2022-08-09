@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Argentini.DataStore.Tests;
+namespace DataStore.Tests;
 
 [DsSerializerContext(typeof(TestModelJsonSerializerContext))]
 public class TestModel: TestBaseModel

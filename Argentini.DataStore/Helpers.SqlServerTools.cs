@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using Microsoft.Data.SqlClient;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 /// <summary>
 /// Various tools to make using SqlConnection and SqlDataReader more bearable. 

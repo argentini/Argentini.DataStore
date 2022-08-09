@@ -1,4 +1,4 @@
-﻿namespace Argentini.DataStore;
+﻿namespace DataStore;
 
 public static class HashingTools
 {

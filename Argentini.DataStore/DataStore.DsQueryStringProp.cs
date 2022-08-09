@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 public class DsQueryStringProp
 {

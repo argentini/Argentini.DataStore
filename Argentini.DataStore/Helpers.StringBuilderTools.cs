@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 public static class StringBuilderTools
 {

@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Text;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 /// <summary>
 /// DsOrderBy is used to create sorting rules for returned results.

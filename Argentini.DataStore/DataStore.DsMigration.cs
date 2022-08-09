@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.Data.SqlClient;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 public class DsMigration
 {

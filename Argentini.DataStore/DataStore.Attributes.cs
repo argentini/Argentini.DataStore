@@ -1,4 +1,4 @@
-namespace Argentini.DataStore;
+namespace DataStore;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class DsUseLineageFeatures : Attribute { }

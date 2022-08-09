@@ -2,7 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 public static class StringTools
 {

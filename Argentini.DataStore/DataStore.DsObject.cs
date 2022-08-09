@@ -4,7 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using JsonCons.JsonPath;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 /// <summary>
 /// Models should inherit from this base class.

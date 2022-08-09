@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 public static class ObjectTools
 {

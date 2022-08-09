@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Text;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 /// <summary>
 /// DsQuery is used to create filtering rules for returned results.

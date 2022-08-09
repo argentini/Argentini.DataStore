@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Argentini.DataStore.Tests;
+namespace DataStore.Tests;
 
 [DsUseLineageFeatures]
 [DsSerializerContext(typeof(TestLineageModelJsonSerializerContext))]

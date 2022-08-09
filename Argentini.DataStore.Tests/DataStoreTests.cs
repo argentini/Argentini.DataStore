@@ -10,7 +10,7 @@ using JsonCons.JsonPath;
 using Xunit;
 using Xunit.Extensions.Ordering;
 
-namespace Argentini.DataStore.Tests;
+namespace DataStore.Tests;
 
 [Order(1)]
 public class DataStoreTests

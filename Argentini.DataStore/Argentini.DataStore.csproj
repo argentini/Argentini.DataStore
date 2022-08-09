@@ -4,12 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>DataStore</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="JsonCons.JsonPath" Version="1.1.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
     <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="obj" />
   </ItemGroup>
 
 </Project>

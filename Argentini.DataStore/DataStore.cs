@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.ObjectPool;
 
-namespace Argentini.DataStore;
+namespace DataStore;
 
 /// <summary>
 /// DataStore is a high performance JSON object store for SQL Server.
