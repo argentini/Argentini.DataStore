@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1703.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argentini.DataStore", "Argentini.DataStore\Argentini.DataStore.csproj", "{9813B07C-AAEF-4E85-A842-F472105CC2B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStore", "DataStore\DataStore.csproj", "{9813B07C-AAEF-4E85-A842-F472105CC2B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Argentini.DataStore.Tests", "Argentini.DataStore.Tests\Argentini.DataStore.Tests.csproj", "{7871864A-1D28-4949-BDE8-3E0D6BF30514}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataStore.Tests", "DataStore.Tests\DataStore.Tests.csproj", "{7871864A-1D28-4949-BDE8-3E0D6BF30514}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

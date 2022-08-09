@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Argentini.DataStore\Argentini.DataStore.csproj" />
+    <ProjectReference Include="..\DataStore\DataStore.csproj" />
   </ItemGroup>
 
 </Project>
