@@ -4586,7 +4586,7 @@ public class DataStoreSettings
     /// <summary>
     /// Standard SQL connection string
     /// </summary>
-    public string SqlConnectionString { get; init; } = string.Empty;
+    public string SqlConnectionString { get; set; } = string.Empty;
 
     public string DatabaseName
     {
