@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Concurrent;
 using System.Data;
 using System.Diagnostics;
 using System.Text;
@@ -1076,17 +1075,13 @@ END
     /// </example>
     /// <param name="type">Object type</param>
     /// <param name="dsos">List of DsObject objects</param>
-    /// <param name="maxDegreeOfParallelism">Number of concurrent save requests</param>
-    public async Task SaveManyAsync(Type type, IEnumerable<DsObject> dsos, int maxDegreeOfParallelism = -1)
+    /// <param name="maxThreadCount">Number of concurrent save requests</param>
+    public async Task SaveManyAsync(Type type, IEnumerable<DsObject> dsos, int maxThreadCount = -1)
     {
         var timer = new Stopwatch();
         var totalTimer = new Stopwatch();
         var existingDsos = new List<DsObject>();
         var tableName = GenerateTableName(type);
-        var parallelOptions = new ParallelOptions
-        {
-            MaxDegreeOfParallelism = maxDegreeOfParallelism == -1 ? (Environment.ProcessorCount > 0 ? Environment.ProcessorCount : 4) : maxDegreeOfParallelism
-        };
 
         totalTimer.Start();
         
@@ -1100,23 +1095,28 @@ END
             existingDsos = await GetManyAsync(type, 1, int.MaxValue, new DsQuery().IdInList(idList));
         }
         
-        var partitioner = new DataStorePartitioner<DsObject>(dsos);
-
         timer.Start();
-        
-        Parallel.ForEach(partitioner, parallelOptions, dso =>
+
+        var tasks = new List<Task>();
+
+        maxThreadCount = maxThreadCount < 0 ? (Environment.ProcessorCount > 0 ? Environment.ProcessorCount : 4) : maxThreadCount;
+        maxThreadCount = maxThreadCount > 64 ? 64 : maxThreadCount;
+
+        foreach (var dso in dsos)
         {
-            var writeQuery = StringBuilderPool.Get();
-            var timer2 = new Stopwatch();
+            tasks.Add(Task.Run(() =>
+            {
+                var writeQuery = StringBuilderPool.Get();
+                var timer2 = new Stopwatch();
 
-            timer2.Start();
+                timer2.Start();
             
-            dso.Serialize(this, generateJsonDocument: false);
+                dso.Serialize(this, generateJsonDocument: false);
 
-            LastTotalWriteTimeMs -= timer2.ElapsedMilliseconds;
+                LastTotalWriteTimeMs -= timer2.ElapsedMilliseconds;
             
-            writeQuery.Clear();
-            writeQuery.Append($@"
+                writeQuery.Clear();
+                writeQuery.Append($@"
 SET NOCOUNT ON
 
 DECLARE @object_id uniqueidentifier
@@ -1153,88 +1153,107 @@ ELSE BEGIN
 END
 ");
 
-            try
-            {
-                _ = new SqlServerExecute(new SqlServerExecuteSettings
+                try
                 {
-                    SqlConnectionString = Settings.SqlConnectionString,
-                    CommandString = writeQuery.ToString()
-                });
-            }
+                    _ = new SqlServerExecute(new SqlServerExecuteSettings
+                    {
+                        SqlConnectionString = Settings.SqlConnectionString,
+                        CommandString = writeQuery.ToString()
+                    });
+                }
 
-            catch (Exception e)
+                catch (Exception e)
+                {
+                    throw new Exception($"DataStore.SaveAsync(Write ObjectTools) => {e.Message}");
+                }
+
+                StringBuilderPool.Return(writeQuery);
+            }));
+
+            while (tasks.Count(t => t.IsCompleted == false) >= maxThreadCount)
             {
-                throw new Exception($"DataStore.SaveAsync(Write ObjectTools) => {e.Message}");
+                await Task.Delay(TimeSpan.FromMilliseconds(10));
             }
+        }
 
-            StringBuilderPool.Return(writeQuery);
-        });
+        await Task.WhenAll(tasks).WaitAsync(TimeSpan.FromSeconds(tasks.Count * 15));
 
+        tasks.Clear();
+        
         LastTotalWriteTimeMs += timer.ElapsedMilliseconds;
 
         if (TableUsesLineageFeatures(tableName))
         {
             timer.Reset();
             timer.Start();
-            partitioner = new DataStorePartitioner<DsObject>(dsos);
             
-            Parallel.ForEach(partitioner, parallelOptions, dso =>
+            foreach (var dso in dsos)
             {
-                var lineageOverheadTimer = new Stopwatch();
-
-                lineageOverheadTimer.Start();
-                
-                var existingDso = existingDsos.FirstOrDefault(d => d.Id == dso.Id);
-
-                LastTotalWriteTimeMs -= lineageOverheadTimer.ElapsedMilliseconds;
-                
-                if (existingDso == null || existingDso.ParentId != dso.ParentId)
+                tasks.Add(Task.Run(() =>
                 {
-                    lineageOverheadTimer.Reset();
+                    var lineageOverheadTimer = new Stopwatch();
+
                     lineageOverheadTimer.Start();
-                    
-                    var lineageQuery = StringBuilderPool.Get();
 
-                    lineageQuery.Append(@"
-BEGIN
-");
-                    if (dso.ParentId != null)
-                    {
-                        lineageQuery.Append($@"
-    EXEC [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages] @parent_object_id = '{dso.ParentId}'
-");
-                    }
-
-                    else
-                    {
-                        lineageQuery.Append($@"
-    EXEC [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages] @parent_object_id = '{dso.Id}'
-");
-                    }
-
-                    lineageQuery.Append(@"
-END
-");
+                    var existingDso = existingDsos.FirstOrDefault(d => d.Id == dso.Id);
 
                     LastTotalWriteTimeMs -= lineageOverheadTimer.ElapsedMilliseconds;
 
-                    try
+                    if (existingDso == null || existingDso.ParentId != dso.ParentId)
                     {
-                        _ = new SqlServerExecute(new SqlServerExecuteSettings
+                        lineageOverheadTimer.Reset();
+                        lineageOverheadTimer.Start();
+
+                        var lineageQuery = StringBuilderPool.Get();
+
+                        lineageQuery.Append(@"
+BEGIN
+");
+                        if (dso.ParentId != null)
                         {
-                            SqlConnectionString = Settings.SqlConnectionString,
-                            CommandString = lineageQuery.ToString()
-                        });
+                            lineageQuery.Append($@"
+    EXEC [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages] @parent_object_id = '{dso.ParentId}'
+");
+                        }
+
+                        else
+                        {
+                            lineageQuery.Append($@"
+    EXEC [dbo].[usp_datastore_{tableName}_UpdateDescendantLineages] @parent_object_id = '{dso.Id}'
+");
+                        }
+
+                        lineageQuery.Append(@"
+END
+");
+
+                        LastTotalWriteTimeMs -= lineageOverheadTimer.ElapsedMilliseconds;
+
+                        try
+                        {
+                            _ = new SqlServerExecute(new SqlServerExecuteSettings
+                            {
+                                SqlConnectionString = Settings.SqlConnectionString,
+                                CommandString = lineageQuery.ToString()
+                            });
+                        }
+
+                        catch (Exception e)
+                        {
+                            throw new Exception($"DataStore.SaveAsync(Update Lineages) => {e.Message}");
+                        }
+
+                        StringBuilderPool.Return(lineageQuery);
                     }
-                
-                    catch (Exception e)
-                    {
-                        throw new Exception($"DataStore.SaveAsync(Update Lineages) => {e.Message}");
-                    }
-                    
-                    StringBuilderPool.Return(lineageQuery);
+                }));
+
+                while (tasks.Count(t => t.IsCompleted == false) >= maxThreadCount)
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(10));
                 }
-            });
+            }
+
+            await Task.WhenAll(tasks).WaitAsync(TimeSpan.FromSeconds(tasks.Count * 15));
             
             LastTotalWriteTimeMs += timer.ElapsedMilliseconds;
         }
@@ -1242,7 +1261,6 @@ END
         var select = $@"
 SELECT TOP {dsos.Count()} * FROM [dbo].[datastore_{tableName}] WHERE [Id] IN ({(dsos.Any() ? $"'{string.Join("','", dsos.Select(d => d.Id))}'" : "")})
 ";
-
         var readOverheadTimer = new Stopwatch();
 
         timer.Reset();
@@ -4685,85 +4703,5 @@ public class DataStoreIndexedColumn
         }
 
         return $"{computedColumnValue} PERSISTED{(Nullable.GetUnderlyingType(DataType) != null ? "" : " NOT NULL")}";
-    }
-}
-
-public class DataStorePartitioner<T> : OrderablePartitioner<T>
-{
-    private readonly IEnumerator<T> m_input;
-
-    public DataStorePartitioner(IEnumerable<T> input) : base(true, false, true)
-    {
-         m_input = input.GetEnumerator();
-    }
-    
-    // Must override to return true.
-    public override bool SupportsDynamicPartitions => true;
-
-    public override IList<IEnumerator<KeyValuePair<long, T>>> GetOrderablePartitions(int partitionCount)
-    {
-        var dynamicPartitions = GetOrderableDynamicPartitions();
-        var partitions = new IEnumerator<KeyValuePair<long, T>>[partitionCount];
-
-        for (var i = 0; i < partitionCount; i++)
-        {
-            partitions[i] = dynamicPartitions.GetEnumerator();
-        }
-
-        return partitions;
-    }
-
-    public override IEnumerable<KeyValuePair<long, T>> GetOrderableDynamicPartitions()
-    {
-        return new ReaderDynamicPartitions(m_input);
-    }
-
-    private class ReaderDynamicPartitions : IEnumerable<KeyValuePair<long, T>>
-    {
-        // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private object syncObject = new ();
-        private bool finished;
-        private readonly IEnumerator<T> m_input;
-        // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        // ReSharper disable once ConvertToConstant.Local
-        private int m_pos = 0;
-
-        internal ReaderDynamicPartitions(IEnumerator<T> input)
-        {
-            m_input = input;
-        }
-
-        public IEnumerator<KeyValuePair<long, T>> GetEnumerator()
-        {
-            while (true)
-            {
-                var toReturn = new KeyValuePair<long,T>();
-
-                lock (syncObject)
-                {
-                    if (finished == false && m_input.MoveNext() == false)
-                    {
-                        finished = true;
-                    }
-                    
-                    if (finished == false)
-                    {
-                        toReturn = new KeyValuePair<long,T>(m_pos, m_input.Current);
-                    }
-                }
-
-                if (finished)
-                {
-                    yield break;
-                }
-
-                yield return toReturn;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
     }
 }

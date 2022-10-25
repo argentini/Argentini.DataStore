@@ -26,7 +26,6 @@ public class DataStoreTests
 
     private const int WriteNumber = 1000; // Must be 200+ and be divisible by ten.
     private const int PerformanceWriteNumber = 2000; // Must be 200+ and be divisible by PerformanceBatchNumber.
-    private const int PerformanceBatchNumber = 100;
 
     private readonly DataStoreSettings _DataStoreSettings = new()
     {
@@ -769,22 +768,11 @@ public class DataStoreTests
         timer.Reset();
         timer.Start();
 
-        var lastTotalTimeMs = 0d;
-        var lastTotalReadTimeMs = 0d;
-        var lastTotalWriteTimeMs = 0d;
-        
-        for (var x = 0; x < PerformanceWriteNumber; x += PerformanceBatchNumber)
-        {
-            await dataStore.SaveManyAsync(dsos.GetRange(x, PerformanceBatchNumber));
+        await dataStore.SaveManyAsync(dsos);
 
-            lastTotalTimeMs += dataStore.LastTotalTimeMs;
-            lastTotalReadTimeMs += dataStore.LastTotalReadTimeMs;
-            lastTotalWriteTimeMs += dataStore.LastTotalWriteTimeMs;
-        }
-
-        dataStore.LastTotalTimeMs = lastTotalTimeMs;
-        dataStore.LastTotalReadTimeMs = lastTotalReadTimeMs;
-        dataStore.LastTotalWriteTimeMs = lastTotalWriteTimeMs;
+        dataStore.LastTotalTimeMs = dataStore.LastTotalTimeMs;
+        dataStore.LastTotalReadTimeMs = dataStore.LastTotalReadTimeMs;
+        dataStore.LastTotalWriteTimeMs = dataStore.LastTotalWriteTimeMs;
 
         timer.Stop();
         
@@ -888,22 +876,11 @@ public class DataStoreTests
         timer.Reset();
         timer.Start();
 
-        lastTotalTimeMs = 0d;
-        lastTotalReadTimeMs = 0d;
-        lastTotalWriteTimeMs = 0d;
-        
-        for (var x = 0; x < PerformanceWriteNumber; x += PerformanceBatchNumber)
-        {
-            await dataStore.SaveManyAsync(dsos2.GetRange(x, PerformanceBatchNumber));
+        await dataStore.SaveManyAsync(dsos2);
 
-            lastTotalTimeMs += dataStore.LastTotalTimeMs;
-            lastTotalReadTimeMs += dataStore.LastTotalReadTimeMs;
-            lastTotalWriteTimeMs += dataStore.LastTotalWriteTimeMs;
-        }
-
-        dataStore.LastTotalTimeMs = lastTotalTimeMs;
-        dataStore.LastTotalReadTimeMs = lastTotalReadTimeMs;
-        dataStore.LastTotalWriteTimeMs = lastTotalWriteTimeMs;
+        dataStore.LastTotalTimeMs = dataStore.LastTotalTimeMs;
+        dataStore.LastTotalReadTimeMs = dataStore.LastTotalReadTimeMs;
+        dataStore.LastTotalWriteTimeMs = dataStore.LastTotalWriteTimeMs;
 
         timer.Stop();
 
