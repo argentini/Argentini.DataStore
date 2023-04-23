@@ -1509,3 +1509,45 @@ Deserialize Baseline    : 00:00:00.098
 
 => TOTAL TEST TIME: 00:00:29.490
 
+DataStore Version 3.3 / SQL Server Version 15.0.2000 / Sunday, April 23, 2023 @ 1:24:35 PM
+==========================================================================================
+
+PERFORMANCE FOR 2,000 OBJECTS
+
+Serialize Baseline      : 00:00:00.005
+Deserialize Baseline    : 00:00:00.060
+
+=> SAVES
+
+   Total SQL Time       : 00:00:07.181  /  Read: 00:00:00.902  /  Write: 00:00:06.279
+   Total CPU Time       : 00:00:00.026
+   Total Time           : 00:00:07.207
+   Efficiency           : 99.6%
+   Effective Rate       : 278/sec
+
+=> READS
+
+   Total SQL Time       : 00:00:00.086
+   Total CPU Time       : 00:00:00.004
+   Total Time           : 00:00:00.090
+   Efficiency           : 95.6%
+   Effective Rate       : 22,222/sec
+
+=> SAVES (lineages)
+
+   Total SQL Time       : 00:00:17.244  /  Read: 00:00:02.202  /  Write: 00:00:15.042
+   Total CPU Time       : 00:00:00.039
+   Total Time           : 00:00:17.283
+   Efficiency           : 99.8%
+   Effective Rate       : 116/sec
+
+=> READS (lineages)
+
+   Total SQL Time       : 00:00:00.090
+   Total CPU Time       : 00:00:00.002
+   Total Time           : 00:00:00.092
+   Efficiency           : 97.8%
+   Effective Rate       : 21,739/sec
+
+=> TOTAL TEST TIME: 00:00:25.652
+

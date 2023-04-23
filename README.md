@@ -155,4 +155,4 @@ foreach (DsObject dso in users)
 
 ### Project
 
-This project is a .NET 6.0 library with xUnit tests, so you can easily play with DataStore. These tests show how to use DataStore as well as benchmark its performance.  
+This project is a .NET library with xUnit tests, so you can easily play with DataStore. These tests show how to use DataStore as well as benchmark its performance.  
